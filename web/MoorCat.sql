@@ -1,0 +1,25 @@
+DROP TABLE IF EXISTS products;
+
+CREATE TABLE products (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(128) NOT NULL,
+    price DECIMAL(5,2) NOT NULL,
+    category INT NOT NULL,
+    supplier INT NOT NULL
+);
+
+
+DROP TABLE IF EXISTS categories;
+
+CREATE TABLE categories (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(64) NOT NULL
+);
+
+DROP TABLE IF EXISTS suppliers;
+
+CREATE TABLE suppliers (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(64) NOT NULL
+);
+
