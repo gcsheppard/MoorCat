@@ -29,12 +29,14 @@ public class MoorCatListener implements ServletContextListener {
         sce.getServletContext().setAttribute("supplierManager", categoryManager);
         ProductManager productManager = new ProductManager(dataSource);
         sce.getServletContext().setAttribute("productManager", productManager);
+        OrderManager orderManager = new OrderManager(dataSource);
+        sce.getServletContext().setAttribute("orderManager", orderManager);
         
         DatabaseSetup databaseSetup = new DatabaseSetup(dataSource);
         databaseSetup.addSuppliers(supplierManager);
         databaseSetup.addCategories(categoryManager);
         databaseSetup.addProducts(productManager);
-        //sce.getServletContext().setAttribute("databaseSetup", databaseSetup);
+        databaseSetup.addOrders(orderManager);
     }
 
     @Override

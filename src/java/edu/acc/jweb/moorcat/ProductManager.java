@@ -1,6 +1,5 @@
 package edu.acc.jweb.moorcat;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -18,7 +17,7 @@ public class ProductManager {
         PreparedStatement statement = null;
         try {
             connection = dataSource.getConnection();
-            statement = connection.prepareStatement("INSERT INTO products (name, price, category, supplier) values (?,?,?,?)");
+            statement = connection.prepareStatement("INSERT INTO products (name, price, category_id, supplier_id) values (?,?,?,?)");
             statement.setString(1, name);
             statement.setString(2, price);
             statement.setInt(3, category);
