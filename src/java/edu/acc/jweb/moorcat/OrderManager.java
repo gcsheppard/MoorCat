@@ -2,7 +2,9 @@ package edu.acc.jweb.moorcat;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.sql.DataSource;
 
 public class OrderManager {
@@ -62,5 +64,34 @@ public class OrderManager {
                 throw new RuntimeException(sqle);
             }
         }   
+    }
+    
+    public ArrayList<Order> getOrders() {
+        ArrayList<Order> list = new ArrayList<>();
+        try (Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM orders ORDER BY id");
+            ResultSet resultSet = statement.executeQuery()) {
+            
+            while (resultSet.next()) {
+                Order order = orderFromDB(resultSet);
+                list.add(order);
+            }
+        } catch(SQLException sqle) {
+            throw new RuntimeException(sqle);
+        } 
+        return list;
+    }
+    
+    private Order orderFromDB(ResultSet resultSet) {
+        Order order = new Order();
+        try {
+            order.setId(resultSet.getInt("id"));
+            order.setFirst_name(resultSet.getString("first_name"));
+            order.setLast_name(resultSet.getString("last_name"));
+            order.setStatus(resultSet.getString("status"));
+            return order;
+        } catch (SQLException sqle) {
+            throw new RuntimeException(sqle);
+        }
     }
 }

@@ -37,7 +37,7 @@ CREATE TABLE order_items (
     order_id INT NOT NULL,
     product_id INT NOT NULL,
     quantity INT NOT NULL,
-    picked INT NOT NULL,
-    shipped INT NOT NULL
+    picked INT NOT NULL DEFAULT 0,
+    shipped INT NOT NULL DEFAULT 0
 );
 
