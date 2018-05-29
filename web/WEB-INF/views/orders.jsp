@@ -14,14 +14,22 @@
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Status</th>
-                <th>Edit</th>
+                <th>Action</th>
             </tr>
             <c:forEach var="order" items="${orders}">
                 <tr>
                     <td><c:out value = "${order.first_name}"/></td>
                     <td><c:out value = "${order.last_name}"/></td>
                     <td><c:out value = "${order.status}"/></td>
-                    <td><a href="/MoorCat/edit?id=${order.id}">Edit Order</a></td>
+                    <c:choose>
+                        <c:when test = "${order.status == 'Placed'}">
+                            <td><a href="/MoorCat/edit?id=${order.id}">Edit/Approve Order</a></td>
+                        </c:when>
+                        <c:when test = "${order.status == 'Approved'}">
+                            <td><a href="/MoorCat/pick?id=${order.id}">Pick Order</a></td>
+                        </c:when>
+                    </c:choose>
+                    
                 </tr>
             </c:forEach>
         </table>
