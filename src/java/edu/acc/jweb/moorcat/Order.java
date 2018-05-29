@@ -3,10 +3,10 @@ package edu.acc.jweb.moorcat;
 import java.util.Date;
 
 public class Order {
-    private int id;
-    private String first_name;
-    private String last_name;
-    private String status;
+    public int id;
+    public String first_name;
+    public String last_name;
+    public String status;
     
     public Order (String first_name, String last_name, String status) {
         this.first_name = first_name;

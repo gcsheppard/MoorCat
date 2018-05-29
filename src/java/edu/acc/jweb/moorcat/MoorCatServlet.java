@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(urlPatterns = {"", "/MoorCat"})
+@WebServlet(urlPatterns = {"", "/MoorCat", "/orders"})
 public class MoorCatServlet extends HttpServlet {
 
 @Override

@@ -21,10 +21,10 @@
                     <td><c:out value = "${order.first_name}"/></td>
                     <td><c:out value = "${order.last_name}"/></td>
                     <td><c:out value = "${order.status}"/></td>
-                    <td><a href="/BikeWay/edit?id=${order.id}">Edit Order</a></td>
+                    <td><a href="/MoorCat/edit?id=${order.id}">Edit Order</a></td>
                 </tr>
             </c:forEach>
         </table>
-        <br><br><div class="d"><a href="/BikeWay/new">Add New Order</a></div><br>
+        <br><br><div class="d"><a href="/MoorCat/new">Add New Order</a></div><br>
     </body>
 </html>
