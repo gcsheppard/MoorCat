@@ -83,6 +83,28 @@ public class OrderManager {
         return list;
     }
     
+    /*
+    SELECT a.product_id, a.quantity, a.picked, b.name, c.name as category, d.name AS supplier FROM order_items a, products b, categories c, suppliers d WHERE a.order_id = ? AND a.product_id = b.id AND b.category_id = c.id AND b.supplier_id = d.id;
+    */
+    
+    public ArrayList<OrderItem> getItemsForOrder(int order_id) {
+        ArrayList<OrderItem> list = new ArrayList<>();
+        try {
+            Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement("SELECT a.product_id, a.quantity, a.picked, b.name, c.name as category, d.name AS supplier FROM order_items a, products b, categories c, suppliers d WHERE a.order_id = ? AND a.product_id = b.id AND b.category_id = c.id AND b.supplier_id = d.id");
+            statement.setInt(1, order_id);
+            ResultSet resultSet = statement.executeQuery();
+            
+            while (resultSet.next()) {
+                OrderItem orderItem = orderItemFromDB(resultSet);
+                list.add(orderItem);
+            }
+        } catch(SQLException sqle) {
+            throw new RuntimeException(sqle);
+        } 
+        return list;
+    }
+    
         public Order findOrderById(Integer id) {
         Order order = null;
         String sql = "select * from orders where id = " + id;
@@ -106,6 +128,27 @@ public class OrderManager {
             order.setLast_name(resultSet.getString("last_name"));
             order.setStatus(resultSet.getString("status"));
             return order;
+        } catch (SQLException sqle) {
+            throw new RuntimeException(sqle);
+        }
+    }
+    
+    /*
+    SELECT a.product_id, a.quantity, a.picked, b.name, c.name as category, d.name as supplier
+    FROM order_items a, products b, categories c, suppliers d
+    WHERE a.order_id = 1 and a.product_id = b.id and b.category_id = c.id and b.supplier_id = d.id;
+    */
+        
+    private OrderItem orderItemFromDB(ResultSet resultSet) {
+        OrderItem orderItem = new OrderItem();
+        try {
+            orderItem.setProduct_id(resultSet.getInt("product_id"));
+            orderItem.setQuantity(resultSet.getInt("quantity"));
+            orderItem.setPicked(resultSet.getInt("picked"));
+            orderItem.setName(resultSet.getString("name"));
+            orderItem.setCategory(resultSet.getString("category"));
+            orderItem.setSupplier(resultSet.getString("supplier"));
+            return orderItem;
         } catch (SQLException sqle) {
             throw new RuntimeException(sqle);
         }

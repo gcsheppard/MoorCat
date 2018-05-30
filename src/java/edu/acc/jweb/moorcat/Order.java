@@ -1,7 +1,5 @@
 package edu.acc.jweb.moorcat;
 
-import java.util.Date;
-
 public class Order {
     public int id;
     public String first_name;
