@@ -105,7 +105,7 @@ public class OrderManager {
         return list;
     }
     
-        public Order findOrderById(Integer id) {
+    public Order findOrderById(Integer id) {
         Order order = null;
         String sql = "select * from orders where id = " + id;
         try (Connection connection = dataSource.getConnection();
@@ -190,13 +190,52 @@ public class OrderManager {
         }
     }
     
-    public void approveOrder(Integer id) {
+    public void updatePicked(int order_id, int product_id, int picked) {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = dataSource.getConnection();
-            statement = connection.prepareStatement("UPDATE orders set status = 'Approved' WHERE id = ?");
-            statement.setInt(1, id);
+            statement = connection.prepareStatement("UPDATE order_items set picked = ? WHERE order_id = ? and product_id = ?");
+            statement.setInt(1, picked);
+            statement.setInt(2, order_id);
+            statement.setInt(3, product_id);
+            statement.executeUpdate();
+        } catch (SQLException sqle) {
+            throw new RuntimeException(sqle);
+        } finally {
+            try {
+                if (statement != null) { 
+                    statement.close();
+                } 
+                if (connection != null) { 
+                    connection.close();
+                } 
+            } catch (SQLException sqle) {
+                throw new RuntimeException(sqle);
+            }
+        }
+    }
+    
+    public Boolean pickComplete(int order_id) {
+        try {
+            Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement("SELECT product_id FROM order_items WHERE order_id = ? AND picked <> quantity");
+            statement.setInt(1, order_id);
+            ResultSet resultSet = statement.executeQuery();
+            return !resultSet.next();
+        } catch(SQLException sqle) {
+            throw new RuntimeException(sqle);
+        } 
+    }
+    
+    public void updateOrderStatus(Integer id, String status) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = dataSource.getConnection();
+            statement = connection.prepareStatement("UPDATE orders set status = ? WHERE id = ?");
+            statement.setString(1, status);
+            statement.setInt(2, id);
             statement.executeUpdate();
         } catch (SQLException sqle) {
             throw new RuntimeException(sqle);

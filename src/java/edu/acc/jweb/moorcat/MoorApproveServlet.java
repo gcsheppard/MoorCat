@@ -19,7 +19,7 @@ public class MoorApproveServlet extends HttpServlet {
             response.sendError(404, "Not Found");
         } else {
             OrderManager orderManager = (OrderManager) getServletContext().getAttribute("orderManager");
-            orderManager.approveOrder(id);
+            orderManager.updateOrderStatus(id, "Approved");
             response.sendRedirect("/MoorCat/orders");
         }
     }

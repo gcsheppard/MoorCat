@@ -9,6 +9,7 @@
      <body>
         <h2>Pick Order For: ${order.first_name} ${order.last_name}</h2>
         <form action="pick" method="post">
+            <input type="hidden" name="order_id" value="${order.id}" />
         <table id="customers">
             <tr>
                 <th>ID</th>
@@ -25,7 +26,7 @@
                     <td><c:out value = "${orderItem.supplier}"/></td>
                     <td><c:out value = "${orderItem.name}"/></td>
                     <td><c:out value = "${orderItem.quantity}"/></td>
-                    <td><input type="text" name="picked" value="${orderItem.picked}"></td>
+                    <td><input type="text" name="${orderItem.product_id}" value="${orderItem.picked}"></td>
                 </tr>
             </c:forEach>
         </table>

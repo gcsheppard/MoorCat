@@ -28,6 +28,9 @@
                         <c:when test = "${order.status == 'Approved'}">
                             <td><a href="/MoorCat/pick?id=${order.id}">Pick Order</a></td>
                         </c:when>
+                        <c:when test = "${order.status == 'Picked'}">
+                            <td><a href="/MoorCat/pack?id=${order.id}">Pack Order</a></td>
+                        </c:when>
                     </c:choose>
                     
                 </tr>
