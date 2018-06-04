@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 
-public class SupplierManager {
+public class SupplierManager extends DBManager {
     
     private final DataSource dataSource;
     
@@ -24,17 +24,9 @@ public class SupplierManager {
         } catch (SQLException sqle) {
             throw new RuntimeException(sqle);
         } finally {
-            try {
-                if (statement != null) { 
-                    statement.close();
-                } 
-                if (connection != null) { 
-                    connection.close();
-                } 
-            } catch (SQLException sqle) {
-                throw new RuntimeException(sqle);
-            }
-        }   
+            close(statement);
+            close(connection);
+        }
     }
     
 }

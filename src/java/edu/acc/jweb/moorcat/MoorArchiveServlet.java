@@ -1,15 +1,14 @@
 package edu.acc.jweb.moorcat;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(urlPatterns = {"/pack"})
-public class MoorPackServlet extends HttpServlet {
+@WebServlet(urlPatterns = {"/archive"})
+public class MoorArchiveServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -27,11 +26,8 @@ public class MoorPackServlet extends HttpServlet {
                 response.sendError(404, "Not Found");
             }
             else {
-                ArrayList<OrderItem> orderItems = null;
-                orderItems = orderManager.getItemsForOrder(id);
                 request.setAttribute("order", order);
-                request.setAttribute("orderItems", orderItems);
-                getServletContext().getRequestDispatcher("/WEB-INF/views/pack.jsp").forward(request, response);
+                getServletContext().getRequestDispatcher("/WEB-INF/views/archive.jsp").forward(request, response);
             }
         }
     }
@@ -46,7 +42,7 @@ public class MoorPackServlet extends HttpServlet {
             response.sendError(404, "Not Found");
         } else {
             OrderManager orderManager = (OrderManager) getServletContext().getAttribute("orderManager");
-            orderManager.updateOrderStatus(id, "Packed");
+            orderManager.updateOrderStatus(id, "Archived");
             response.sendRedirect("/MoorCat/orders");
         }
     }

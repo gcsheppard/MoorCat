@@ -31,11 +31,16 @@
                         <c:when test = "${order.status == 'Picked'}">
                             <td><a href="/MoorCat/pack?id=${order.id}">Pack Order</a></td>
                         </c:when>
+                        <c:when test = "${order.status == 'Packed'}">
+                            <td><a href="/MoorCat/ship?id=${order.id}">Ship Order</a></td>
+                        </c:when>
+                        <c:when test = "${order.status == 'Shipped'}">
+                            <td><a href="/MoorCat/archive?id=${order.id}">Archive Order</a></td>
+                        </c:when>
                     </c:choose>
                     
                 </tr>
             </c:forEach>
         </table>
-        <br><br><div class="d"><a href="/MoorCat/new">Add New Order</a></div><br>
     </body>
 </html>

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import javax.sql.DataSource;
 
-public class OrderManager {
+public class OrderManager extends DBManager {
     private final DataSource dataSource;
     
     public OrderManager (DataSource dataSource) {
@@ -28,17 +28,9 @@ public class OrderManager {
         } catch (SQLException sqle) {
             throw new RuntimeException(sqle);
         } finally {
-            try {
-                if (statement != null) { 
-                    statement.close();
-                } 
-                if (connection != null) { 
-                    connection.close();
-                } 
-            } catch (SQLException sqle) {
-                throw new RuntimeException(sqle);
-            }
-        }   
+            close(statement);
+            close(connection);
+        }
     }
     
     public void addProductToOrder(int order_id, int product_id, int quantity) {
@@ -54,24 +46,20 @@ public class OrderManager {
         } catch (SQLException sqle) {
             throw new RuntimeException(sqle);
         } finally {
-            try {
-                if (statement != null) { 
-                    statement.close();
-                } 
-                if (connection != null) { 
-                    connection.close();
-                } 
-            } catch (SQLException sqle) {
-                throw new RuntimeException(sqle);
-            }
-        }   
+            close(statement);
+            close(connection);
+        }
     }
     
     public ArrayList<Order> getOrders() {
         ArrayList<Order> list = new ArrayList<>();
-        try (Connection connection = dataSource.getConnection();
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM orders ORDER BY id");
-            ResultSet resultSet = statement.executeQuery()) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = dataSource.getConnection();
+            statement = connection.prepareStatement("SELECT * FROM orders WHERE status <> 'Archived' ORDER BY id");
+            resultSet = statement.executeQuery();
             
             while (resultSet.next()) {
                 Order order = orderFromDB(resultSet);
@@ -79,21 +67,24 @@ public class OrderManager {
             }
         } catch(SQLException sqle) {
             throw new RuntimeException(sqle);
+        } finally {
+            close(resultSet);
+            close(statement);
+            close(connection);
         } 
         return list;
     }
     
-    /*
-    SELECT a.product_id, a.quantity, a.picked, b.name, c.name as category, d.name AS supplier FROM order_items a, products b, categories c, suppliers d WHERE a.order_id = ? AND a.product_id = b.id AND b.category_id = c.id AND b.supplier_id = d.id;
-    */
-    
     public ArrayList<OrderItem> getItemsForOrder(int order_id) {
         ArrayList<OrderItem> list = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
-            Connection connection = dataSource.getConnection();
-            PreparedStatement statement = connection.prepareStatement("SELECT a.product_id, a.quantity, a.picked, b.name, c.name as category, d.name AS supplier FROM order_items a, products b, categories c, suppliers d WHERE a.order_id = ? AND a.product_id = b.id AND b.category_id = c.id AND b.supplier_id = d.id");
+            connection = dataSource.getConnection();
+            statement = connection.prepareStatement("SELECT a.product_id, a.quantity, a.picked, b.name, c.name as category, d.name AS supplier FROM order_items a, products b, categories c, suppliers d WHERE a.order_id = ? AND a.product_id = b.id AND b.category_id = c.id AND b.supplier_id = d.id");
             statement.setInt(1, order_id);
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             
             while (resultSet.next()) {
                 OrderItem orderItem = orderItemFromDB(resultSet);
@@ -101,22 +92,34 @@ public class OrderManager {
             }
         } catch(SQLException sqle) {
             throw new RuntimeException(sqle);
-        } 
+        } finally {
+            close(resultSet);
+            close(statement);
+            close(connection);
+        }         
         return list;
     }
     
     public Order findOrderById(Integer id) {
         Order order = null;
-        String sql = "select * from orders where id = " + id;
-        try (Connection connection = dataSource.getConnection();
-            PreparedStatement statement = connection.prepareStatement(sql);
-            ResultSet resultSet = statement.executeQuery()) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = dataSource.getConnection();
+            statement = connection.prepareStatement("select * from orders where id = ?");
+            statement.setInt(1, id);
+            resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 order = orderFromDB(resultSet);
             }
         } catch(SQLException sqle) {
             throw new RuntimeException(sqle);
-        }
+        } finally {
+            close(resultSet);
+            close(statement);
+            close(connection);
+        }     
         return order;
     }
     
@@ -132,12 +135,6 @@ public class OrderManager {
             throw new RuntimeException(sqle);
         }
     }
-    
-    /*
-    SELECT a.product_id, a.quantity, a.picked, b.name, c.name as category, d.name as supplier
-    FROM order_items a, products b, categories c, suppliers d
-    WHERE a.order_id = 1 and a.product_id = b.id and b.category_id = c.id and b.supplier_id = d.id;
-    */
         
     private OrderItem orderItemFromDB(ResultSet resultSet) {
         OrderItem orderItem = new OrderItem();
@@ -177,16 +174,8 @@ public class OrderManager {
         } catch (SQLException sqle) {
             throw new RuntimeException(sqle);
         } finally {
-            try {
-                if (statement != null) { 
-                    statement.close();
-                } 
-                if (connection != null) { 
-                    connection.close();
-                } 
-            } catch (SQLException sqle) {
-                throw new RuntimeException(sqle);
-            }
+            close(statement);
+            close(connection);
         }
     }
     
@@ -203,29 +192,28 @@ public class OrderManager {
         } catch (SQLException sqle) {
             throw new RuntimeException(sqle);
         } finally {
-            try {
-                if (statement != null) { 
-                    statement.close();
-                } 
-                if (connection != null) { 
-                    connection.close();
-                } 
-            } catch (SQLException sqle) {
-                throw new RuntimeException(sqle);
-            }
+            close(statement);
+            close(connection);
         }
     }
     
     public Boolean pickComplete(int order_id) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
-            Connection connection = dataSource.getConnection();
-            PreparedStatement statement = connection.prepareStatement("SELECT product_id FROM order_items WHERE order_id = ? AND picked <> quantity");
+            connection = dataSource.getConnection();
+            statement = connection.prepareStatement("SELECT product_id FROM order_items WHERE order_id = ? AND picked <> quantity");
             statement.setInt(1, order_id);
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             return !resultSet.next();
         } catch(SQLException sqle) {
             throw new RuntimeException(sqle);
-        } 
+        } finally {
+            close(resultSet);
+            close(statement);
+            close(connection);
+        }    
     }
     
     public void updateOrderStatus(Integer id, String status) {
@@ -240,16 +228,8 @@ public class OrderManager {
         } catch (SQLException sqle) {
             throw new RuntimeException(sqle);
         } finally {
-            try {
-                if (statement != null) { 
-                    statement.close();
-                } 
-                if (connection != null) { 
-                    connection.close();
-                } 
-            } catch (SQLException sqle) {
-                throw new RuntimeException(sqle);
-            }
+            close(statement);
+            close(connection);
         }
     }
 }
