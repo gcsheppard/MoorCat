@@ -9,38 +9,38 @@
         <h1>The MoorCat--everything for your cat!</h1>
         <h2>Order Management</h2>
         
-        <table id="customers">
-            <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-            <c:forEach var="order" items="${orders}">
-                <tr>
-                    <td><c:out value = "${order.first_name}"/></td>
-                    <td><c:out value = "${order.last_name}"/></td>
-                    <td><c:out value = "${order.status}"/></td>
-                    <c:choose>
+
+        
+        <div class="grid-container">
+          <div class="item1">Order #</div>
+          <div class="item1">First Name</div>
+          <div class="item1">Last Name</div>
+          <div class="item1">Status</div>  
+          <div class="item1">Action</div>
+          
+          <c:forEach var="order" items="${orders}">
+              <div class="item2"><c:out value = "${order.id}"/></div>
+              <div class="item2"><c:out value = "${order.first_name}"/></div>
+              <div class="item2"><c:out value = "${order.last_name}"/></div>  
+              <div class="item2"><c:out value = "${order.status}"/></div>
+              <div class="item2"><c:choose>
                         <c:when test = "${order.status == 'Placed'}">
-                            <td><a href="/MoorCat/edit?id=${order.id}">Edit/Approve Order</a></td>
+                            <a href="/MoorCat/edit?id=${order.id}">Edit/Approve Order</a>
                         </c:when>
                         <c:when test = "${order.status == 'Approved'}">
-                            <td><a href="/MoorCat/pick?id=${order.id}">Pick Order</a></td>
+                            <a href="/MoorCat/pick?id=${order.id}">Pick Order</a>
                         </c:when>
                         <c:when test = "${order.status == 'Picked'}">
-                            <td><a href="/MoorCat/pack?id=${order.id}">Pack Order</a></td>
+                            <a href="/MoorCat/pack?id=${order.id}">Pack Order</a>
                         </c:when>
                         <c:when test = "${order.status == 'Packed'}">
-                            <td><a href="/MoorCat/ship?id=${order.id}">Ship Order</a></td>
+                            <a href="/MoorCat/ship?id=${order.id}">Ship Order</a>
                         </c:when>
                         <c:when test = "${order.status == 'Shipped'}">
-                            <td><a href="/MoorCat/archive?id=${order.id}">Archive Order</a></td>
+                            <a href="/MoorCat/archive?id=${order.id}">Archive Order</a>
                         </c:when>
-                    </c:choose>
-                    
-                </tr>
-            </c:forEach>
-        </table>
+                    </c:choose></div>
+          </c:forEach>
+        </div>
     </body>
 </html>

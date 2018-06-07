@@ -1,6 +1,7 @@
 package edu.acc.jweb.moorcat;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,7 +26,10 @@ public class MoorEditServlet extends HttpServlet {
                 response.sendError(404, "Not Found");
             }
             else {
+                ArrayList<OrderItem> orderItems = null;
+                orderItems = orderManager.getItemsForOrder(id);
                 request.setAttribute("order", order);
+                request.setAttribute("orderItems", orderItems);
                 getServletContext().getRequestDispatcher("/WEB-INF/views/edit.jsp").forward(request, response);
             }
         }
@@ -52,7 +56,10 @@ public class MoorEditServlet extends HttpServlet {
                 response.sendRedirect("/MoorCat/orders"); 
             }
             else {
+                ArrayList<OrderItem> orderItems = null;
+                orderItems = orderManager.getItemsForOrder(id);
                 request.setAttribute("order", order);
+                request.setAttribute("orderItems", orderItems);
                 request.setAttribute("errors", errors);
                 getServletContext().getRequestDispatcher("/WEB-INF/views/edit.jsp").forward(request, response);
             }
