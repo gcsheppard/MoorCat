@@ -28,30 +28,34 @@
                 </ul>
             </c:when>
         </c:choose>    
-               
+                
         <br>        
-        <div class="edit_grid">
-            <div class="edit1">Order #: ${order.id}</div>
-            <div class="edit2">First Name: <input type="text" name="first_name" value="${order.first_name}" placeholder="First Name"></div>
-            <div class="edit3">Last Name: <input type="text" size="40" name="last_name" value="${order.last_name}" placeholder="Last Name"></div>
-        </div>  
-        <br>
-        <div class="edit_grid">
-            <div class="edit4">Product #</div>
-            <div class="edit4">Category</div>
-            <div class="edit4">Supplier</div>
-            <div class="edit4">Name</div>
-            <div class="edit4">Ordered</div>
-            <c:forEach var="orderItem" items="${orderItems}">
-                <div class="item2"><c:out value = "${orderItem.product_id}"/></div>
-                <div class="item2"><c:out value = "${orderItem.category}"/></div>
-                <div class="item2"><c:out value = "${orderItem.supplier}"/></div>
-                <div class="item2"><c:out value = "${orderItem.name}"/></div>
-                <div class="item2"><input type="text" name="${orderItem.product_id}" value="${orderItem.quantity}"></div>
-            </c:forEach>
-        </div>        
-                
-                
+        
+        <form action="edit" method="post">
+            <input type="hidden" name="id" value="${order.id}" /><br>
+            <div class="edit_grid">
+                <div class="edit1">Order #: ${order.id}</div>
+                <div class="edit2">First Name: <input type="text" name="first_name" value="${order.first_name}" placeholder="First Name"></div>
+                <div class="edit3">Last Name: <input type="text" size="40" name="last_name" value="${order.last_name}" placeholder="Last Name"></div>
+            </div>  
+            <br>
+            <div class="edit_grid">
+                <div class="edit4">Product #</div>
+                <div class="edit4">Category</div>
+                <div class="edit4">Supplier</div>
+                <div class="edit4">Name</div>
+                <div class="edit4">Ordered</div>
+                <c:forEach var="orderItem" items="${orderItems}">
+                    <div class="edit5"><c:out value = "${orderItem.product_id}"/></div>
+                    <div class="edit5"><c:out value = "${orderItem.category}"/></div>
+                    <div class="edit5"><c:out value = "${orderItem.supplier}"/></div>
+                    <div class="edit5"><c:out value = "${orderItem.name}"/></div>
+                    <div class="edit5"><input type="text" size="10" style="text-align:center; name="${orderItem.product_id}" value="${orderItem.quantity}"></div>
+                </c:forEach>
+                <div class="edit6"><input type="submit" value="Save" /></div>
+            </div>        
+            
+        </form>                 
                 
                 
                 

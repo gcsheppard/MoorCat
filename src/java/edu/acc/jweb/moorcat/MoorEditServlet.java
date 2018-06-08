@@ -45,14 +45,15 @@ public class MoorEditServlet extends HttpServlet {
         } else {
             String first_name = request.getParameter("first_name");
             String last_name = request.getParameter("last_name");
-            String status = request.getParameter("status");
+            //String status = request.getParameter("status");
 
-            Order order = new Order(first_name, last_name, status);
+            Order order = new Order(first_name, last_name);
+            order.setId(id);
             OrderManager orderManager = (OrderManager) getServletContext().getAttribute("orderManager");
             HashMap<String,String> errors = orderManager.validOrder(order);
 
             if (errors.isEmpty()) {
-                orderManager.updateOrder(id, first_name, last_name, status);
+                orderManager.updateOrder(id, first_name, last_name);
                 response.sendRedirect("/MoorCat/orders"); 
             }
             else {

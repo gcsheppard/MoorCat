@@ -156,11 +156,11 @@ public class OrderManager extends DBManager {
         
         if (order.first_name.isEmpty()) errors.put("first_name", "First Name not entered.");
         if (order.last_name.isEmpty()) errors.put("last_name", "Last Name not entered.");
-        if (order.status.isEmpty()) errors.put("status", "Status not entered.");
+        //if (order.status.isEmpty()) errors.put("status", "Status not entered.");
         return errors;
     }
         
-    public void updateOrder(Integer id, String first_name, String last_name, String status) {
+    public void updateOrderWithStatus(Integer id, String first_name, String last_name, String status) {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
@@ -170,6 +170,25 @@ public class OrderManager extends DBManager {
             statement.setString(2, last_name);
             statement.setString(3, status);
             statement.setInt(4, id);
+            statement.executeUpdate();
+        } catch (SQLException sqle) {
+            throw new RuntimeException(sqle);
+        } finally {
+            close(statement);
+            close(connection);
+        }
+    }
+    
+        public void updateOrder(Integer id, String first_name, String last_name) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = dataSource.getConnection();
+            statement = connection.prepareStatement("UPDATE orders set first_name = ?, last_name = ? WHERE id = ?");
+            statement.setString(1, first_name);
+            statement.setString(2, last_name);
+            //statement.setString(3, status);
+            statement.setInt(3, id);
             statement.executeUpdate();
         } catch (SQLException sqle) {
             throw new RuntimeException(sqle);

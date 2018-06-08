@@ -117,3 +117,16 @@ div.h {
   padding: 1px;
   font-size: 20px;
 }
+.edit5 {
+  background-color: white;
+  text-align: center;
+  padding: 5px 0;
+  font-size: 20px;
+}
+.edit6 {
+  background-color: yellow;
+  text-align: center;
+  padding: 5px 0;
+  font-size: 20px;
+  grid-column: 1 / 6;
+}
