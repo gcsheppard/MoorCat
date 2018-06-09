@@ -8,14 +8,7 @@
         <h1>The MoorCat--everything for your cat!</h1>
      <body>
         <h2>Edit Order Information:</h2>
-        <form action="edit" method="post">
-            <input type="hidden" name="id" value="${order.id}" /><br>
-            <div class="b">First Name: <input type="text" name="first_name" value="${order.first_name}" placeholder="First Name"></div><br>
-            <div class="b">Last Name: <input type="text" name="last_name" value="${order.last_name}" placeholder="Last Name"></div><br>
-            <div class="b">Status: <input type="text" name="status" value="${order.status}" placeholder="Status"></div><br>
-            <div class="c"><input type="submit" value="Save" /><br>
-        </form>  
-
+        
         <c:choose>
             <c:when test = "${errors != null}">
                 <br><br><div class="e">Errors:</div>
@@ -35,8 +28,8 @@
             <input type="hidden" name="id" value="${order.id}" /><br>
             <div class="edit_grid">
                 <div class="edit1">Order #: ${order.id}</div>
-                <div class="edit2">First Name: <input type="text" name="first_name" value="${order.first_name}" placeholder="First Name"></div>
-                <div class="edit3">Last Name: <input type="text" size="40" name="last_name" value="${order.last_name}" placeholder="Last Name"></div>
+                <div class="edit2">First Name: <input type="text" name="first_name" value="${order.first_name}"></div>
+                <div class="edit3">Last Name: <input type="text" size="40" name="last_name" value="${order.last_name}"></div>
             </div>  
             <br>
             <div class="edit_grid">
@@ -50,8 +43,18 @@
                     <div class="edit5"><c:out value = "${orderItem.category}"/></div>
                     <div class="edit5"><c:out value = "${orderItem.supplier}"/></div>
                     <div class="edit5"><c:out value = "${orderItem.name}"/></div>
-                    <div class="edit5"><input type="text" size="10" style="text-align:center; name="${orderItem.product_id}" value="${orderItem.quantity}"></div>
+                    <div class="edit5"><input type="text" size="10" name="${orderItem.product_id}" value="${orderItem.quantity}"></div>
                 </c:forEach>
+                    
+                <div class="edit7">Add Product:
+                    <select name="new">
+                        <c:forEach var="product" items="${products}">
+                            <option value="${product.product_id}">${product.name}</option>
+                        </c:forEach>
+                    </select>
+                    Quantity: <input type="text" name="quantity" value="0">
+                </div>    
+                    
                 <div class="edit6"><input type="submit" value="Save" /></div>
             </div>        
             

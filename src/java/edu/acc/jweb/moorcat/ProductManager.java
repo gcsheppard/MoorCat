@@ -2,7 +2,9 @@ package edu.acc.jweb.moorcat;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.sql.DataSource;
 
 public class ProductManager extends DBManager {
@@ -28,6 +30,44 @@ public class ProductManager extends DBManager {
         } finally {
             close(statement);
             close(connection);
+        }
+    }
+    
+    public ArrayList<Product> getProducts() {
+        ArrayList<Product> list = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = dataSource.getConnection();
+            statement = connection.prepareStatement("SELECT * FROM products ORDER BY id");
+            resultSet = statement.executeQuery();
+            
+            while (resultSet.next()) {
+                Product product = productFromDB(resultSet);
+                list.add(product);
+            }
+        } catch(SQLException sqle) {
+            throw new RuntimeException(sqle);
+        } finally {
+            close(resultSet);
+            close(statement);
+            close(connection);
+        } 
+        return list;
+    }
+    
+    private Product productFromDB(ResultSet resultSet) {
+        Product product = new Product();
+        try {
+            product.setProduct_id(resultSet.getInt("id"));
+            product.setName(resultSet.getString("name"));
+            product.setPrice(resultSet.getBigDecimal("price"));
+            product.setCategory_id(resultSet.getInt("category_id"));
+            product.setSupplier_id(resultSet.getInt("supplier_id"));
+            return product;
+        } catch (SQLException sqle) {
+            throw new RuntimeException(sqle);
         }
     }
 }

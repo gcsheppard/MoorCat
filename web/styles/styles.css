@@ -130,3 +130,10 @@ div.h {
   font-size: 20px;
   grid-column: 1 / 6;
 }
+.edit7 {
+  background-color: white;
+  text-align: center;
+  padding: 5px 0;
+  font-size: 20px;
+  grid-column: 1 / 6;
+}

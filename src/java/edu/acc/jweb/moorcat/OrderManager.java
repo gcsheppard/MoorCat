@@ -51,6 +51,41 @@ public class OrderManager extends DBManager {
         }
     }
     
+    public void removeProductFromOrder(Integer order_id, Integer product_id) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = dataSource.getConnection();
+            statement = connection.prepareStatement("DELETE FROM order_items WHERE order_id = ? AND product_id = ?");
+            statement.setInt(1, order_id);
+            statement.setInt(2, product_id);
+            statement.executeUpdate();
+        } catch (SQLException sqle) {
+            throw new RuntimeException(sqle);
+        } finally {
+            close(statement);
+            close(connection);
+        }
+    }
+    
+    public void updateOrderedQuantity(Integer order_id, Integer product_id, Integer ordered) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = dataSource.getConnection();
+            statement = connection.prepareStatement("UPDATE order_items SET quantity = ? WHERE order_id = ? AND product_id = ?");
+            statement.setInt(1, ordered);
+            statement.setInt(2, order_id);
+            statement.setInt(3, product_id);
+            statement.executeUpdate();
+        } catch (SQLException sqle) {
+            throw new RuntimeException(sqle);
+        } finally {
+            close(statement);
+            close(connection);
+        }
+    }
+    
     public ArrayList<Order> getOrders() {
         ArrayList<Order> list = new ArrayList<>();
         Connection connection = null;
@@ -156,7 +191,6 @@ public class OrderManager extends DBManager {
         
         if (order.first_name.isEmpty()) errors.put("first_name", "First Name not entered.");
         if (order.last_name.isEmpty()) errors.put("last_name", "Last Name not entered.");
-        //if (order.status.isEmpty()) errors.put("status", "Status not entered.");
         return errors;
     }
         
