@@ -77,6 +77,24 @@ public class MoorEditServlet extends HttpServlet {
                 }
             }
             //add product?
+            str = request.getParameter("new_product");
+            Integer product_id = UtilityMethods.integerFromString(str);
+            str = request.getParameter("new_quantity");
+            Integer quantity = UtilityMethods.integerFromString(str);
+            if (product_id != null && quantity > 0) {
+                if (orderManager.productInOrder(order_id, product_id)) {
+                    System.out.println("----------------------------------------");
+                    System.out.println("product in order");
+                    System.out.println("order_id: " + order_id);
+                    System.out.println("product_id: " + product_id);
+                    System.out.println("quantity: " + quantity);
+                    System.out.println("----------------------------------------");
+                    orderManager.addQuantityToOrderedItem(order_id, product_id, quantity);
+                } else {
+                    orderManager.addProductToOrder(order_id, product_id, quantity);
+                }
+            }
+            
             orderItems = null;
             orderItems = orderManager.getItemsForOrder(order_id);
             request.setAttribute("order", order);

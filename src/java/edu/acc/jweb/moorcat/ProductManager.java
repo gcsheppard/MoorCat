@@ -70,4 +70,6 @@ public class ProductManager extends DBManager {
             throw new RuntimeException(sqle);
         }
     }
+    
+    
 }

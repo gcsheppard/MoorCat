@@ -47,12 +47,13 @@
                 </c:forEach>
                     
                 <div class="edit7">Add Product:
-                    <select name="new">
+                    <select name="new_product">
+                        <option>Select Product</option>
                         <c:forEach var="product" items="${products}">
                             <option value="${product.product_id}">${product.name}</option>
                         </c:forEach>
                     </select>
-                    Quantity: <input type="text" name="quantity" value="0">
+                    Quantity: <input type="text" name="new_quantity" value="0">
                 </div>    
                     
                 <div class="edit6"><input type="submit" value="Save" /></div>

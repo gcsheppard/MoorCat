@@ -285,5 +285,43 @@ public class OrderManager extends DBManager {
             close(connection);
         }
     }
+    
+    public Boolean productInOrder(int order_id, int product_id) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = dataSource.getConnection();
+            statement = connection.prepareStatement("SELECT product_id FROM order_items WHERE order_id = ? AND product_id = ?");
+            statement.setInt(1, order_id);
+            statement.setInt(2, product_id);
+            resultSet = statement.executeQuery();
+            return resultSet.next();
+        } catch(SQLException sqle) {
+            throw new RuntimeException(sqle);
+        } finally {
+            close(resultSet);
+            close(statement);
+            close(connection);
+        }    
+    }
+    
+    public void addQuantityToOrderedItem(int order_id, int product_id, int quantity) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = dataSource.getConnection();
+            statement = connection.prepareStatement("UPDATE order_items SET quantity = quantity + ? WHERE order_id = ? AND product_id = ?");
+            statement.setInt(1, quantity);
+            statement.setInt(2, order_id);
+            statement.setInt(3, product_id);
+            statement.executeUpdate();
+        } catch(SQLException sqle) {
+            throw new RuntimeException(sqle);
+        } finally {
+            close(statement);
+            close(connection);
+        }    
+    }
 }
 
