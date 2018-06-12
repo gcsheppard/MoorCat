@@ -57,6 +57,31 @@ public class ProductManager extends DBManager {
         return list;
     }
     
+    public ArrayList<Product> getProductsNotOnOrder(int order_id) {
+        ArrayList<Product> list = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = dataSource.getConnection();
+            statement = connection.prepareStatement("SELECT * FROM products WHERE id NOT IN (SELECT product_id FROM order_items WHERE order_id = ?) ORDER BY id");
+            statement.setInt(1, order_id);
+            resultSet = statement.executeQuery();
+            
+            while (resultSet.next()) {
+                Product product = productFromDB(resultSet);
+                list.add(product);
+            }
+        } catch(SQLException sqle) {
+            throw new RuntimeException(sqle);
+        } finally {
+            close(resultSet);
+            close(statement);
+            close(connection);
+        } 
+        return list;
+    }
+    
     private Product productFromDB(ResultSet resultSet) {
         Product product = new Product();
         try {

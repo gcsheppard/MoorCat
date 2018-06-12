@@ -32,7 +32,7 @@ public class MoorEditServlet extends HttpServlet {
                 request.setAttribute("order", order);
                 request.setAttribute("orderItems", orderItems);
                 ProductManager productManager = (ProductManager) getServletContext().getAttribute("productManager");
-                ArrayList<Product> products = productManager.getProducts();
+                ArrayList<Product> products = productManager.getProductsNotOnOrder(id);
                 request.setAttribute("products", products);
                 getServletContext().getRequestDispatcher("/WEB-INF/views/edit.jsp").forward(request, response);
             }
@@ -83,12 +83,14 @@ public class MoorEditServlet extends HttpServlet {
             Integer quantity = UtilityMethods.integerFromString(str);
             if (product_id != null && quantity > 0) {
                 if (orderManager.productInOrder(order_id, product_id)) {
+                    /*
                     System.out.println("----------------------------------------");
                     System.out.println("product in order");
                     System.out.println("order_id: " + order_id);
                     System.out.println("product_id: " + product_id);
                     System.out.println("quantity: " + quantity);
                     System.out.println("----------------------------------------");
+                    */
                     orderManager.addQuantityToOrderedItem(order_id, product_id, quantity);
                 } else {
                     orderManager.addProductToOrder(order_id, product_id, quantity);
@@ -101,7 +103,10 @@ public class MoorEditServlet extends HttpServlet {
             request.setAttribute("orderItems", orderItems);
             request.setAttribute("errors", errors);
             ProductManager productManager = (ProductManager) getServletContext().getAttribute("productManager");
-            ArrayList<Product> products = productManager.getProducts();
+            ArrayList<Product> products = productManager.getProductsNotOnOrder(order_id);
+                    //System.out.println("----------------------------------------");
+                    //System.out.println("order_id: " + order_id);
+                    //System.out.println("----------------------------------------");
             request.setAttribute("products", products);
             getServletContext().getRequestDispatcher("/WEB-INF/views/edit.jsp").forward(request, response);
         }
