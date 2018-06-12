@@ -57,22 +57,16 @@
                 </div>    
                     
                 <div class="edit6"><input type="submit" value="Save" /></div>
+        </form>
+                
+                <div class="edit6">
+                    <form action="approve" method="post">
+                        <input type="hidden" name="id" value="${order.id}" />
+                        <input type="submit" value="Approve" />
+                    </form>
+                </div>
             </div>        
             
-        </form>                 
-                
-                
-                
-                
-        <hr>        
-        <h2>Approve Order:</h2>
-        <form action="approve" method="post">
-            <input type="hidden" name="id" value="${order.id}" /><br>
-            <div class="b">Current Status: ${order.status}</div><br>
-            <div class="c"><input type="submit" value="Approve" /><br>
-        </form>  
-                
-                
         <br><br><div class="d"><a href="/MoorCat/orders">Return to order list</a></div><br>
 
      </body>
