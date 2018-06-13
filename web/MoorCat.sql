@@ -49,3 +49,11 @@ CREATE TABLE users (
     password VARCHAR(512),
     department VARCHAR(32)
 );
+
+DROP TABLE IF EXISTS department_status;
+
+CREATE TABLE department_status {
+    department VARCHAR(64) NOT NULL,
+    status VARCHAR(32) NOT NULL
+);
+

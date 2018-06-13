@@ -67,6 +67,10 @@ public class UserManager extends DBManager {
             }
         } catch(SQLException sqle) {
             throw new RuntimeException(sqle);
+        } finally {
+            close(resultSet);
+            close(statement);
+            close(connection);
         }            
     }
 }

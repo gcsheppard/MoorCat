@@ -52,6 +52,9 @@ public class DatabaseSetup {
         orderManager.addProductToOrder(3, 5, 1);
     }
     
-
+    public void addUsers(UserManager userManager) {
+        userManager.addUser("admin", "admin", "Management");
+        userManager.addUser("work", "work", "Warehouse");
+    }
 }
 
