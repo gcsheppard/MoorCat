@@ -64,7 +64,8 @@ public class ProductManager extends DBManager {
         ResultSet resultSet = null;
         try {
             connection = dataSource.getConnection();
-            statement = connection.prepareStatement("SELECT * FROM products WHERE id NOT IN (SELECT product_id FROM order_items WHERE order_id = ?) ORDER BY id");
+            statement = connection.prepareStatement("SELECT * FROM products WHERE id NOT IN (SELECT product_id "
+                    + "FROM order_items WHERE order_id = ?) ORDER BY id");
             statement.setInt(1, order_id);
             resultSet = statement.executeQuery();
             

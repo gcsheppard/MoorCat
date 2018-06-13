@@ -41,3 +41,11 @@ CREATE TABLE order_items (
     shipped INT NOT NULL DEFAULT 0
 );
 
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE users (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(32) UNIQUE,
+    password VARCHAR(512),
+    department VARCHAR(32)
+);

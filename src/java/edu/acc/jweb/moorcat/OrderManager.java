@@ -117,7 +117,9 @@ public class OrderManager extends DBManager {
         ResultSet resultSet = null;
         try {
             connection = dataSource.getConnection();
-            statement = connection.prepareStatement("SELECT a.product_id, a.quantity, a.picked, b.name, c.name as category, d.name AS supplier FROM order_items a, products b, categories c, suppliers d WHERE a.order_id = ? AND a.product_id = b.id AND b.category_id = c.id AND b.supplier_id = d.id");
+            statement = connection.prepareStatement("SELECT a.product_id, a.quantity, a.picked, b.name, c.name as category, "
+                    + "d.name AS supplier FROM order_items a, products b, categories c, suppliers d WHERE a.order_id = ? "
+                    + "AND a.product_id = b.id AND b.category_id = c.id AND b.supplier_id = d.id");
             statement.setInt(1, order_id);
             resultSet = statement.executeQuery();
             
