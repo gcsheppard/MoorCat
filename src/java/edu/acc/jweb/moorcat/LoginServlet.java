@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet(urlPatterns = {"/login"})
+@WebServlet(urlPatterns = {"", "/MoorCat", "/login"})
 public class LoginServlet extends HttpServlet {
     public String flash;
     
@@ -34,7 +34,7 @@ public class LoginServlet extends HttpServlet {
             //BookManager bookManager = (BookManager) getServletContext().getAttribute("bookManager");
             //ArrayList<Book> books = bookManager.getBooks();
             //request.setAttribute("books", books);
-            response.sendRedirect("/orders");
+            response.sendRedirect("/MoorCat/orders");
         }
         else {
             flash = "Login failed.";

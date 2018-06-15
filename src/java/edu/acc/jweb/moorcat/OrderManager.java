@@ -86,14 +86,16 @@ public class OrderManager extends DBManager {
         }
     }
     
-    public ArrayList<Order> getOrders() {
+    public ArrayList<Order> getOrders(String department) {
         ArrayList<Order> list = new ArrayList<>();
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
             connection = dataSource.getConnection();
-            statement = connection.prepareStatement("SELECT * FROM orders WHERE status <> 'Archived' ORDER BY id");
+            //statement = connection.prepareStatement("SELECT * FROM orders WHERE status <> 'Archived' ORDER BY id");
+            statement = connection.prepareStatement("SELECT * FROM orders WHERE status IN (SELECT status FROM department_status WHERE department = ?) ORDER BY id");
+            statement.setString(1, department);
             resultSet = statement.executeQuery();
             
             while (resultSet.next()) {

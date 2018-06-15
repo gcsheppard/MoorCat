@@ -10,9 +10,11 @@
         
         <h2>Login:</h2>
         <form action="login" method="post">
-            <div class="b"><input type="text" name="username" placeholder="Username"}></div><br>
-            <div class="b"><input type="password" name="password" placeholder="Password"></div><br>
-            <div class="c"><input type="submit" value="Submit" /><br>
+            <div class="login_grid">
+                <div class="login1"><input type="text" name="username" placeholder="Username"}></div><br>
+                <div class="login1"><input type="password" name="password" placeholder="Password"></div><br>
+                <div class="login1"><input type="submit" value="Submit" /><br>
+            </div>
         </form>  
     </body>
 </html>

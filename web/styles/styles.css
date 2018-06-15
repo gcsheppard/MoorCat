@@ -137,3 +137,17 @@ div.h {
   font-size: 20px;
   grid-column: 1 / 6;
 }
+
+.login_grid {
+  display: grid;
+  grid-template-columns: 40px;
+  grid-gap: 5px;
+  background-color: #4CAF50;
+  padding: 5px;
+}
+.login2 {
+  background-color: white;
+  text-align: left;
+  padding: 1px;
+  font-size: 20px;
+}

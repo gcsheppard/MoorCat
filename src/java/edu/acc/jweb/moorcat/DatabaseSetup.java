@@ -56,5 +56,15 @@ public class DatabaseSetup {
         userManager.addUser("admin", "admin", "Management");
         userManager.addUser("work", "work", "Warehouse");
     }
+    
+    public void addDepartmentStatuses(UserManager userManager) {
+        userManager.addDepartmentStatus("Management", "Placed");
+        userManager.addDepartmentStatus("Management", "Approved");
+        userManager.addDepartmentStatus("Management", "Picked");
+        userManager.addDepartmentStatus("Management", "Packed");
+        userManager.addDepartmentStatus("Management", "Shipped");
+        userManager.addDepartmentStatus("Management", "Placed");
+        userManager.addDepartmentStatus("Warehouse", "Approved");
+    }
 }
 

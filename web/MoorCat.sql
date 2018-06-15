@@ -52,7 +52,7 @@ CREATE TABLE users (
 
 DROP TABLE IF EXISTS department_status;
 
-CREATE TABLE department_status {
+CREATE TABLE department_status (
     department VARCHAR(64) NOT NULL,
     status VARCHAR(32) NOT NULL
 );

@@ -42,5 +42,14 @@
                     </c:choose></div>
           </c:forEach>
         </div>
+        
+        <c:choose>
+            <c:when test = "${user == null}">
+                <br><div class="d"><a href="/MoorCat/login">Login</a></div><br>
+            </c:when>
+            <c:otherwise>
+                <br><div class="d"><a href="/MoorCat/logout">Logout</a></div><br>
+            </c:otherwise>
+        </c:choose>
     </body>
 </html>

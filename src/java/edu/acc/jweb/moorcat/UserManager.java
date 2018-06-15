@@ -31,6 +31,23 @@ public class UserManager extends DBManager {
         }   
     }
     
+    public void addDepartmentStatus(String department, String status) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = dataSource.getConnection();
+            statement = connection.prepareStatement("INSERT INTO department_status (department, status) VALUES (?,?)");
+            statement.setString(1, department);
+            statement.setString(2, status);
+            statement.executeUpdate();
+        } catch (SQLException sqle) {
+            throw new RuntimeException(sqle);
+        } finally {
+            close(statement);
+            close(connection);
+        }   
+    }
+    
     public User validateUser(String username, String password) {
         User found = findUser(username);
         if (found != null) {

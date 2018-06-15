@@ -7,8 +7,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-@WebServlet(urlPatterns = {"", "/MoorCat", "/orders"})
+@WebServlet(urlPatterns = {"/orders"})
 public class MoorCatServlet extends HttpServlet {
 
 @Override
@@ -16,8 +17,10 @@ public class MoorCatServlet extends HttpServlet {
             throws ServletException, IOException {
         
         ArrayList<Order> orders = null;
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
         OrderManager orderManager = (OrderManager) getServletContext().getAttribute("orderManager");
-        orders = orderManager.getOrders();
+        orders = orderManager.getOrders(user.getDepartment());
         request.setAttribute("orders", orders);
         getServletContext().getRequestDispatcher("/WEB-INF/views/orders.jsp").forward(request, response);
     }

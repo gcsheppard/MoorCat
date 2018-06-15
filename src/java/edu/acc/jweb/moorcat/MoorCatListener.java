@@ -23,6 +23,9 @@ public class MoorCatListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+        //TableManager tableManager = new TableManager(dataSource);
+        //tableManager.clearTables();
+        
         SupplierManager supplierManager = new SupplierManager(dataSource);
         sce.getServletContext().setAttribute("supplierManager", supplierManager);
         CategoryManager categoryManager = new CategoryManager(dataSource);
@@ -40,7 +43,7 @@ public class MoorCatListener implements ServletContextListener {
         databaseSetup.addProducts(productManager);
         databaseSetup.addOrders(orderManager);
         databaseSetup.addUsers(userManager);
-        
+        databaseSetup.addDepartmentStatuses(userManager);
     }
 
     @Override
