@@ -13,7 +13,7 @@
             <div class="login_grid">
                 <div class="login1"><input type="text" name="username" placeholder="Username"}></div><br>
                 <div class="login1"><input type="password" name="password" placeholder="Password"></div><br>
-                <div class="login1"><input type="submit" value="Submit" /><br>
+                <div class="login1"><input type="submit" value="Login" /><br>
             </div>
         </form>  
     </body>

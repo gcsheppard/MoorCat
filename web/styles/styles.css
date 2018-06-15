@@ -140,14 +140,16 @@ div.h {
 
 .login_grid {
   display: grid;
-  grid-template-columns: 40px;
+  justify-content: center;
+  grid-template-columns: 200px;
+  max-width: 210px;
   grid-gap: 5px;
   background-color: #4CAF50;
   padding: 5px;
 }
-.login2 {
+.login1 {
   background-color: white;
-  text-align: left;
+  text-align: center;
   padding: 1px;
   font-size: 20px;
 }

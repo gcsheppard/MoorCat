@@ -43,6 +43,8 @@
           </c:forEach>
         </div>
         
+        <br><div class="d"><a href="/MoorCat/neworder">New Order</a></div><br>
+        
         <c:choose>
             <c:when test = "${user == null}">
                 <br><div class="d"><a href="/MoorCat/login">Login</a></div><br>
