@@ -23,6 +23,9 @@ public class MoorNewOrderServlet extends HttpServlet {
         ProductManager productManager = (ProductManager) getServletContext().getAttribute("productManager");
         ArrayList<Product> products = productManager.getProductsNotOnOrder(0);
         request.setAttribute("products", products);
+        HashMap<String,String> errors = null;
+        request.setAttribute("show_errors", "false");
+        request.setAttribute("show_place", "false");
         getServletContext().getRequestDispatcher("/WEB-INF/views/neworder.jsp").forward(request, response);
     }
     
@@ -92,8 +95,6 @@ public class MoorNewOrderServlet extends HttpServlet {
         
         ProductManager productManager = (ProductManager) getServletContext().getAttribute("productManager");
         ArrayList<Product> products = productManager.getProductsNotOnOrder(0);
-        request.setAttribute("products", products);
-        request.setAttribute("order", order);
         if (new_order_items == null) {
             System.out.println("--2------------------------");
             System.out.println("new_order_items is null");
@@ -103,9 +104,17 @@ public class MoorNewOrderServlet extends HttpServlet {
             System.out.println("new_order_items.size() = " + new_order_items.size());
             System.out.println("------------------------");
         }
-        request.setAttribute("new_order_items", new_order_items);
-        //set errors to null if empty
-        //save order to db
+
+        session.setAttribute("new_order_items", new_order_items);
+        session.setAttribute("products", products);
+        session.setAttribute("order", order);
+        if (errors.isEmpty()) {
+            request.setAttribute("show_place", "true");
+            request.setAttribute("show_errors", "false");
+        } else {
+            request.setAttribute("show_place", "false");
+            request.setAttribute("show_errors", "true");
+        }
         request.setAttribute("errors", errors);
         getServletContext().getRequestDispatcher("/WEB-INF/views/neworder.jsp").forward(request, response);
     }

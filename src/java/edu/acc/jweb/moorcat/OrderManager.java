@@ -33,6 +33,32 @@ public class OrderManager extends DBManager {
         }
     }
     
+    public int addOrderReturnPK(String firstName, String lastName, String status) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        int order_id = 0;
+        try {
+            connection = dataSource.getConnection();
+            statement = connection.prepareStatement("INSERT INTO orders (first_name, last_name, status) values (?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
+            statement.setString(1, firstName);
+            statement.setString(2, lastName);
+            statement.setString(3, status);
+            statement.executeUpdate();
+            resultSet = statement.getGeneratedKeys();
+            if (resultSet.next()) {
+                order_id = resultSet.getInt(1);
+            }
+            return order_id;
+        } catch (SQLException sqle) {
+            throw new RuntimeException(sqle);
+        } finally {
+            close(resultSet);
+            close(statement);
+            close(connection);
+        }
+    }
+    
     public void addProductToOrder(int order_id, int product_id, int quantity) {
         Connection connection = null;
         PreparedStatement statement = null;

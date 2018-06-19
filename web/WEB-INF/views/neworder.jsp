@@ -10,7 +10,7 @@
         <h2>Enter Order Information:</h2>
         
         <c:choose>
-            <c:when test = "${errors != null}">
+            <c:when test = "${show_errors == 'true'}">
                 <br><br><div class="e">Errors:</div>
                 <ul>
                 <c:forEach var="error" items="${errors.values()}">
@@ -56,7 +56,7 @@
                 <div class="edit6"><input type="submit" value="Save" /></div>
         </form>
             <c:choose>
-                <c:when test = "${errors == null}">                
+                <c:when test = "${show_place == 'true'}">                
                     <div class="edit6">
                         <form action="place" method="post">
                             <input type="hidden" name="order_id" value="${order.id}" />
