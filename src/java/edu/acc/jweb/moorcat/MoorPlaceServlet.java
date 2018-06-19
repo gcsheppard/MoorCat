@@ -7,10 +7,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(urlPatterns = {"/approve"})
-public class MoorApproveServlet extends HttpServlet {
+@WebServlet(urlPatterns = {"/place"})
+public class MoorPlaceServlet extends HttpServlet {
 
-    @Override
+@Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
@@ -21,7 +21,7 @@ public class MoorApproveServlet extends HttpServlet {
             response.sendError(404, "Not Found");
         } else {
             OrderManager orderManager = (OrderManager) getServletContext().getAttribute("orderManager");
-            orderManager.updateOrderStatus(order_id, "Approved");
+            orderManager.updateOrderStatus(order_id, "Placed");
             response.sendRedirect("/MoorCat/orders");
         }
     }

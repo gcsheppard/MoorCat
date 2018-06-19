@@ -93,7 +93,6 @@ public class OrderManager extends DBManager {
         ResultSet resultSet = null;
         try {
             connection = dataSource.getConnection();
-            //statement = connection.prepareStatement("SELECT * FROM orders WHERE status <> 'Archived' ORDER BY id");
             statement = connection.prepareStatement("SELECT * FROM orders WHERE status IN (SELECT status FROM department_status WHERE department = ?) ORDER BY id");
             statement.setString(1, department);
             resultSet = statement.executeQuery();
@@ -137,6 +136,37 @@ public class OrderManager extends DBManager {
             close(connection);
         }         
         return list;
+    }
+    
+    public OrderItem getUnassignedOrderItem(int product_id, int quantity) {
+        OrderItem orderItem = new OrderItem();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = dataSource.getConnection();
+            statement = connection.prepareStatement("SELECT b.name, c.name as category, "
+                    + "d.name AS supplier FROM products b, categories c, suppliers d WHERE "
+                    + "b.id = ? AND b.category_id = c.id AND b.supplier_id = d.id");
+            statement.setInt(1, product_id);
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                orderItem.setProduct_id(product_id);
+                orderItem.setQuantity(quantity);
+                orderItem.setName(resultSet.getString("name"));
+                orderItem.setCategory(resultSet.getString("category"));
+                orderItem.setSupplier(resultSet.getString("supplier"));
+            } else {
+                orderItem = null;
+            }
+            return orderItem;
+        } catch(SQLException sqle) {
+            throw new RuntimeException(sqle);
+        } finally {
+            close(resultSet);
+            close(statement);
+            close(connection);
+        } 
     }
     
     public Order findOrderById(Integer id) {

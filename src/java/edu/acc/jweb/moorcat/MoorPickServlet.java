@@ -16,21 +16,21 @@ public class MoorPickServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String str = request.getParameter("id");
-        Integer id = integerFromString(str);
+        String str = request.getParameter("order_id");
+        Integer order_id = UtilityMethods.integerFromString(str);
         
         //Integer id = integerIdFromParameter(request);
-        if (id == null) {
+        if (order_id == null) {
             response.sendError(404, "Not Found");
         } else {
             OrderManager orderManager = (OrderManager) getServletContext().getAttribute("orderManager");
-            Order order = orderManager.findOrderById(id);
+            Order order = orderManager.findOrderById(order_id);
             if (order == null) {
                 response.sendError(404, "Not Found");
             }
             else {
                 ArrayList<OrderItem> orderItems = null;
-                orderItems = orderManager.getItemsForOrder(id);
+                orderItems = orderManager.getItemsForOrder(order_id);
                 request.setAttribute("order", order);
                 request.setAttribute("orderItems", orderItems);
                 getServletContext().getRequestDispatcher("/WEB-INF/views/pick.jsp").forward(request, response);
@@ -46,7 +46,7 @@ public class MoorPickServlet extends HttpServlet {
         //printParamInfo(request);
         
         String str = request.getParameter("order_id");
-        Integer order_id = integerFromString(str);
+        Integer order_id = UtilityMethods.integerFromString(str);
         /*
         if (order_id == null) {
             System.out.println("order_id is null");
@@ -61,7 +61,7 @@ public class MoorPickServlet extends HttpServlet {
             String product_id = Integer.toString(orderItem.getProduct_id());
             //System.out.println("product_id is: " + product_id);
             str = request.getParameter(product_id);
-            Integer picked = integerFromString(str);
+            Integer picked = UtilityMethods.integerFromString(str);
             /*
             if (picked == null) {
             System.out.println("picked is null");
@@ -78,55 +78,4 @@ public class MoorPickServlet extends HttpServlet {
         
         response.sendRedirect("/MoorCat/orders"); 
     }
-    
-    private Integer integerFromString(String str) {
-        if (str == null) {
-            return null;
-        } else if (str.isEmpty()) {
-            return null;
-        } else try {
-            return Integer.parseInt(str);
-        } catch (Exception e) {
-            return null;
-        }
-    }
-    
-    private void printParamInfo(HttpServletRequest request) {
-        Enumeration paramNames = request.getParameterNames();
-
-        while(paramNames.hasMoreElements()) {
-         String paramName = (String)paramNames.nextElement();
-         System.out.println("paramName:" + paramName);
-         String[] paramValues = request.getParameterValues(paramName);
-
-         // Read single valued data
-         if (paramValues.length == 1) {
-            String paramValue = paramValues[0];
-            if (paramValue.length() == 0)
-               System.out.println("No Value");
-            else
-               System.out.println(paramValue);
-         } else {
-            // Read multiple valued data
-            for(int i = 0; i < paramValues.length; i++) {
-               System.out.println(paramValues[i]);
-            }
-         }
-      }
-    }
-    
-    /*    
-    private Integer integerIdFromParameter(HttpServletRequest request) {
-        String str = request.getParameter("id");
-        if (str == null) {
-            return null;
-        } else if (str.isEmpty()) {
-            return null;
-        } else try {
-            return Integer.parseInt(request.getParameter("id"));
-        } catch (Exception e) {
-            return null;
-        }
-    }
-    */
 }

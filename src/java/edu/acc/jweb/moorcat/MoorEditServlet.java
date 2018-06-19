@@ -16,23 +16,23 @@ public class MoorEditServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String str = request.getParameter("id");
-        Integer id = UtilityMethods.integerFromString(str);
-        if (id == null) {
+        String str = request.getParameter("order_id");
+        Integer order_id = UtilityMethods.integerFromString(str);
+        if (order_id == null) {
             response.sendError(404, "Not Found");
         } else {
             OrderManager orderManager = (OrderManager) getServletContext().getAttribute("orderManager");
-            Order order = orderManager.findOrderById(id);
+            Order order = orderManager.findOrderById(order_id);
             if (order == null) {
                 response.sendError(404, "Not Found");
             }
             else {
                 ArrayList<OrderItem> orderItems = null;
-                orderItems = orderManager.getItemsForOrder(id);
+                orderItems = orderManager.getItemsForOrder(order_id);
                 request.setAttribute("order", order);
                 request.setAttribute("orderItems", orderItems);
                 ProductManager productManager = (ProductManager) getServletContext().getAttribute("productManager");
-                ArrayList<Product> products = productManager.getProductsNotOnOrder(id);
+                ArrayList<Product> products = productManager.getProductsNotOnOrder(order_id);
                 request.setAttribute("products", products);
                 getServletContext().getRequestDispatcher("/WEB-INF/views/edit.jsp").forward(request, response);
             }
@@ -46,7 +46,7 @@ public class MoorEditServlet extends HttpServlet {
         OrderManager orderManager = (OrderManager) getServletContext().getAttribute("orderManager");
         ArrayList<OrderItem> orderItems = null;
 
-        String str = request.getParameter("id");
+        String str = request.getParameter("order_id");
         Integer order_id = UtilityMethods.integerFromString(str);
         if (order_id == null) {
             response.sendError(404, "Not Found");
@@ -83,14 +83,6 @@ public class MoorEditServlet extends HttpServlet {
             Integer quantity = UtilityMethods.integerFromString(str);
             if (product_id != null && quantity > 0) {
                 if (orderManager.productInOrder(order_id, product_id)) {
-                    /*
-                    System.out.println("----------------------------------------");
-                    System.out.println("product in order");
-                    System.out.println("order_id: " + order_id);
-                    System.out.println("product_id: " + product_id);
-                    System.out.println("quantity: " + quantity);
-                    System.out.println("----------------------------------------");
-                    */
                     orderManager.addQuantityToOrderedItem(order_id, product_id, quantity);
                 } else {
                     orderManager.addProductToOrder(order_id, product_id, quantity);
@@ -104,9 +96,6 @@ public class MoorEditServlet extends HttpServlet {
             request.setAttribute("errors", errors);
             ProductManager productManager = (ProductManager) getServletContext().getAttribute("productManager");
             ArrayList<Product> products = productManager.getProductsNotOnOrder(order_id);
-                    //System.out.println("----------------------------------------");
-                    //System.out.println("order_id: " + order_id);
-                    //System.out.println("----------------------------------------");
             request.setAttribute("products", products);
             getServletContext().getRequestDispatcher("/WEB-INF/views/edit.jsp").forward(request, response);
         }

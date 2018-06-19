@@ -15,20 +15,20 @@ public class MoorPackServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String str = request.getParameter("id");
-        Integer id = integerFromString(str);
+        String str = request.getParameter("order_id");
+        Integer order_id = UtilityMethods.integerFromString(str);
         
-        if (id == null) {
+        if (order_id == null) {
             response.sendError(404, "Not Found");
         } else {
             OrderManager orderManager = (OrderManager) getServletContext().getAttribute("orderManager");
-            Order order = orderManager.findOrderById(id);
+            Order order = orderManager.findOrderById(order_id);
             if (order == null) {
                 response.sendError(404, "Not Found");
             }
             else {
                 ArrayList<OrderItem> orderItems = null;
-                orderItems = orderManager.getItemsForOrder(id);
+                orderItems = orderManager.getItemsForOrder(order_id);
                 request.setAttribute("order", order);
                 request.setAttribute("orderItems", orderItems);
                 getServletContext().getRequestDispatcher("/WEB-INF/views/pack.jsp").forward(request, response);
@@ -41,25 +41,13 @@ public class MoorPackServlet extends HttpServlet {
             throws ServletException, IOException {
         
         String str = request.getParameter("order_id");
-        Integer id = integerFromString(str);
-        if (id == null) {
+        Integer order_id = UtilityMethods.integerFromString(str);
+        if (order_id == null) {
             response.sendError(404, "Not Found");
         } else {
             OrderManager orderManager = (OrderManager) getServletContext().getAttribute("orderManager");
-            orderManager.updateOrderStatus(id, "Packed");
+            orderManager.updateOrderStatus(order_id, "Packed");
             response.sendRedirect("/MoorCat/orders");
-        }
-    }
-    
-    private Integer integerFromString(String str) {
-        if (str == null) {
-            return null;
-        } else if (str.isEmpty()) {
-            return null;
-        } else try {
-            return Integer.parseInt(str);
-        } catch (Exception e) {
-            return null;
         }
     }
 }

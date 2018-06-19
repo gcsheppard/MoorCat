@@ -25,19 +25,19 @@
               <div class="item2"><c:out value = "${order.status}"/></div>
               <div class="item2"><c:choose>
                         <c:when test = "${order.status == 'Placed'}">
-                            <a href="/MoorCat/edit?id=${order.id}">Edit/Approve Order</a>
+                            <a href="/MoorCat/edit?order_id=${order.id}">Edit/Approve Order</a>
                         </c:when>
                         <c:when test = "${order.status == 'Approved'}">
-                            <a href="/MoorCat/pick?id=${order.id}">Pick Order</a>
+                            <a href="/MoorCat/pick?order_id=${order.id}">Pick Order</a>
                         </c:when>
                         <c:when test = "${order.status == 'Picked'}">
-                            <a href="/MoorCat/pack?id=${order.id}">Pack Order</a>
+                            <a href="/MoorCat/pack?order_id=${order.id}">Pack Order</a>
                         </c:when>
                         <c:when test = "${order.status == 'Packed'}">
-                            <a href="/MoorCat/ship?id=${order.id}">Ship Order</a>
+                            <a href="/MoorCat/ship?order_id=${order.id}">Ship Order</a>
                         </c:when>
                         <c:when test = "${order.status == 'Shipped'}">
-                            <a href="/MoorCat/archive?id=${order.id}">Archive Order</a>
+                            <a href="/MoorCat/archive?order_id=${order.id}">Archive Order</a>
                         </c:when>
                     </c:choose></div>
           </c:forEach>

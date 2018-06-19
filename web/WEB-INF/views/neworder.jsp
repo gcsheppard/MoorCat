@@ -35,7 +35,7 @@
                 <div class="edit4">Supplier</div>
                 <div class="edit4">Name</div>
                 <div class="edit4">Ordered</div>
-                <c:forEach var="orderItem" items="${orderItems}">
+                <c:forEach var="orderItem" items="${new_order_items}">
                     <div class="edit5"><c:out value = "${orderItem.product_id}"/></div>
                     <div class="edit5"><c:out value = "${orderItem.category}"/></div>
                     <div class="edit5"><c:out value = "${orderItem.supplier}"/></div>
@@ -54,9 +54,18 @@
                 </div>    
                     
                 <div class="edit6"><input type="submit" value="Save" /></div>
-            </div>        
         </form>
-                
+            <c:choose>
+                <c:when test = "${errors == null}">                
+                    <div class="edit6">
+                        <form action="place" method="post">
+                            <input type="hidden" name="order_id" value="${order.id}" />
+                            <input type="submit" value="Place" />
+                        </form>
+                    </div>
+                </c:when>
+            </c:choose>    
+            </div>        
         
         
         <br><br><div class="d"><a href="/MoorCat/orders">Return to order list</a></div><br>

@@ -31,9 +31,6 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("user", user);
             flash = "";
             request.setAttribute("flash", flash);
-            //BookManager bookManager = (BookManager) getServletContext().getAttribute("bookManager");
-            //ArrayList<Book> books = bookManager.getBooks();
-            //request.setAttribute("books", books);
             response.sendRedirect("/MoorCat/orders");
         }
         else {

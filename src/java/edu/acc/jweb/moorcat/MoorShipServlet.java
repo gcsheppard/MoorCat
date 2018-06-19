@@ -14,14 +14,14 @@ public class MoorShipServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String str = request.getParameter("id");
-        Integer id = integerFromString(str);
+        String str = request.getParameter("order_id");
+        Integer order_id = UtilityMethods.integerFromString(str);
         
-        if (id == null) {
+        if (order_id == null) {
             response.sendError(404, "Not Found");
         } else {
             OrderManager orderManager = (OrderManager) getServletContext().getAttribute("orderManager");
-            Order order = orderManager.findOrderById(id);
+            Order order = orderManager.findOrderById(order_id);
             if (order == null) {
                 response.sendError(404, "Not Found");
             }
@@ -37,25 +37,13 @@ public class MoorShipServlet extends HttpServlet {
             throws ServletException, IOException {
         
         String str = request.getParameter("order_id");
-        Integer id = integerFromString(str);
-        if (id == null) {
+        Integer order_id = UtilityMethods.integerFromString(str);
+        if (order_id == null) {
             response.sendError(404, "Not Found");
         } else {
             OrderManager orderManager = (OrderManager) getServletContext().getAttribute("orderManager");
-            orderManager.updateOrderStatus(id, "Shipped");
+            orderManager.updateOrderStatus(order_id, "Shipped");
             response.sendRedirect("/MoorCat/orders");
-        }
-    }
-    
-    private Integer integerFromString(String str) {
-        if (str == null) {
-            return null;
-        } else if (str.isEmpty()) {
-            return null;
-        } else try {
-            return Integer.parseInt(str);
-        } catch (Exception e) {
-            return null;
         }
     }
 }
