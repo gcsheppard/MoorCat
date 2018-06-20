@@ -43,7 +43,22 @@ public class MoorShipServlet extends HttpServlet {
         } else {
             OrderManager orderManager = (OrderManager) getServletContext().getAttribute("orderManager");
             orderManager.updateOrderStatus(order_id, "Shipped");
-            response.sendRedirect("/MoorCat/orders");
+            Order order = orderManager.findOrderById(order_id);
+            String host = "smtp.gmail.com";
+            String port = "587";
+            String user = "atypicalcat";
+            String pass = "quickcat";
+            String recipient = "AtypicalCat@gmail.com";
+            String subject = "shipment notification";
+            String content = "Hello:\nYour order has been shipped.";
+            
+            try {
+                EmailUtility.sendEmail(host, port, user, pass, recipient, subject, content);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            } finally {
+                response.sendRedirect("/MoorCat/orders");
+            }
         }
     }
 }
