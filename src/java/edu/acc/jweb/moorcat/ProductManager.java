@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import javax.sql.DataSource;
 
@@ -68,6 +69,31 @@ public class ProductManager extends DBManager {
                     + "FROM order_items WHERE order_id = ?) ORDER BY id");
             statement.setInt(1, order_id);
             resultSet = statement.executeQuery();
+            
+            while (resultSet.next()) {
+                Product product = productFromDB(resultSet);
+                list.add(product);
+            }
+        } catch(SQLException sqle) {
+            throw new RuntimeException(sqle);
+        } finally {
+            close(resultSet);
+            close(statement);
+            close(connection);
+        } 
+        return list;
+    }
+
+    
+    public ArrayList<Product> getProductsPerSQL(String sql) {
+        ArrayList<Product> list = new ArrayList<>();
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = dataSource.getConnection();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(sql);
             
             while (resultSet.next()) {
                 Product product = productFromDB(resultSet);
