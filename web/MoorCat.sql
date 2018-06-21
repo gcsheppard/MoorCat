@@ -64,9 +64,9 @@ CREATE TABLE ship_methods (
     ship_method VARCHAR(64) NOT NULL
 );
 
-DROP TABLE IF EXISTS ship_detail;
+DROP TABLE IF EXISTS ship_details;
 
-CREATE TABLE ship_detail (
+CREATE TABLE ship_details (
     order_id INT NOT NULL,
     ship_method VARCHAR(64) NOT NULL,
     tracking VARCHAR(64) NOT NULL

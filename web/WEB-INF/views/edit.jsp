@@ -25,7 +25,7 @@
         <br>        
         
         <form action="edit" method="post">
-            <input type="hidden" name="order_id" value="${order.id}" /><br>
+            <input type="hidden" name="order_id" value="${order.id}" />
             <div class="edit_grid">
                 <div class="edit1">Order #: ${order.id}</div>
                 <div class="edit2">First Name: <input type="text" name="first_name" value="${order.first_name}"></div>

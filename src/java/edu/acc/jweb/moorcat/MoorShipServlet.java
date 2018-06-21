@@ -1,6 +1,7 @@
 package edu.acc.jweb.moorcat;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,6 +28,10 @@ public class MoorShipServlet extends HttpServlet {
             }
             else {
                 request.setAttribute("order", order);
+                ShipManager shipManager = (ShipManager) getServletContext().getAttribute("shipManager");
+                ArrayList<ShipMethod> ship_methods = shipManager.getShipMethods();
+                request.setAttribute("ship_methods", ship_methods);
+
                 getServletContext().getRequestDispatcher("/WEB-INF/views/ship.jsp").forward(request, response);
             }
         }
@@ -36,6 +41,10 @@ public class MoorShipServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        System.out.println("--1------------------------");
+        System.out.println("MoorShipServlet doPost");
+        System.out.println("------------------------");
+        
         String str = request.getParameter("order_id");
         Integer order_id = UtilityMethods.integerFromString(str);
         if (order_id == null) {
@@ -44,13 +53,22 @@ public class MoorShipServlet extends HttpServlet {
             OrderManager orderManager = (OrderManager) getServletContext().getAttribute("orderManager");
             orderManager.updateOrderStatus(order_id, "Shipped");
             Order order = orderManager.findOrderById(order_id);
+            
+            String ship_method = request.getParameter("ship_method");
+            Integer ship_method_id = UtilityMethods.integerFromString(ship_method);
+            String tracking = request.getParameter("tracking");
+            ShipManager shipManager = (ShipManager) getServletContext().getAttribute("shipManager");
+            shipManager.addShipDetail(order_id, ship_method, tracking);
+            String ship_method_name = shipManager.getShipMethodName(ship_method_id);
+            
             String host = "smtp.gmail.com";
             String port = "587";
             String user = "atypicalcat";
             String pass = "quickcat";
             String recipient = "AtypicalCat@gmail.com";
             String subject = "shipment notification";
-            String content = "Hello:\nYour order has been shipped.";
+            String content = "Hello:\nYour order number " + order_id + " has been shipped."
+                    + "\nShipment is by " + ship_method_name + " tracking number " + tracking + ".";
             
             try {
                 EmailUtility.sendEmail(host, port, user, pass, recipient, subject, content);
