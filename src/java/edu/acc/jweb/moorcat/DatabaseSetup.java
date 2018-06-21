@@ -66,5 +66,10 @@ public class DatabaseSetup {
         userManager.addDepartmentStatus("Management", "Placed");
         userManager.addDepartmentStatus("Warehouse", "Approved");
     }
+    
+    public void addShipMethods(ShipManager shipManager) {
+        shipManager.addShipMethod("UPS Ground");
+        shipManager.addShipMethod("USPS Priority Mail");
+    }
 }
 

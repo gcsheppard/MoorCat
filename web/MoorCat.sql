@@ -57,3 +57,17 @@ CREATE TABLE department_status (
     status VARCHAR(32) NOT NULL
 );
 
+DROP TABLE IF EXISTS ship_methods;
+
+CREATE TABLE ship_methods (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    ship_method VARCHAR(64) NOT NULL
+);
+
+DROP TABLE IF EXISTS ship_detail;
+
+CREATE TABLE ship_detail (
+    order_id INT NOT NULL,
+    ship_method VARCHAR(64) NOT NULL,
+    tracking VARCHAR(64) NOT NULL
+);
