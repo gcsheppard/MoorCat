@@ -40,6 +40,13 @@ public class MoorNewOrderServlet extends HttpServlet {
         String first_name = request.getParameter("first_name");
         String last_name = request.getParameter("last_name");
         String email = request.getParameter("email");
+        
+        System.out.println("--3------------------------");
+        System.out.println("first_name = " + first_name);
+        System.out.println("last_name = " + last_name);
+        System.out.println("email = " + email);
+        System.out.println("------------------------");
+            
         Order order = new Order(first_name, last_name, email);
         HashMap<String,String> errors = orderManager.validOrder(order);
         

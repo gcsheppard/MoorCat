@@ -11,11 +11,13 @@ public class Order {
         this.first_name = first_name;
         this.last_name = last_name;
         this.status = status;
+        this.email = email;
     }   
     
     public Order (String first_name, String last_name, String email) {
         this.first_name = first_name;
         this.last_name = last_name;
+        this.email = email;
     }   
     
     public Order () {
