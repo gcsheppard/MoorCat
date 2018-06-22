@@ -15,15 +15,16 @@ public class OrderManager extends DBManager {
         this.dataSource = dataSource;
     }
     
-    public void addOrder(String firstName, String lastName, String status) {
+    public void addOrder(String firstName, String lastName, String status, String email) {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = dataSource.getConnection();
-            statement = connection.prepareStatement("INSERT INTO orders (first_name, last_name, status) values (?,?,?)");
+            statement = connection.prepareStatement("INSERT INTO orders (first_name, last_name, status, email) values (?,?,?,?)");
             statement.setString(1, firstName);
             statement.setString(2, lastName);
             statement.setString(3, status);
+            statement.setString(4, email);
             statement.executeUpdate();
         } catch (SQLException sqle) {
             throw new RuntimeException(sqle);
@@ -33,17 +34,18 @@ public class OrderManager extends DBManager {
         }
     }
     
-    public int addOrderReturnPK(String firstName, String lastName, String status) {
+    public int addOrderReturnPK(String firstName, String lastName, String status, String email) {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         int order_id = 0;
         try {
             connection = dataSource.getConnection();
-            statement = connection.prepareStatement("INSERT INTO orders (first_name, last_name, status) values (?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
+            statement = connection.prepareStatement("INSERT INTO orders (first_name, last_name, status, email) values (?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
             statement.setString(1, firstName);
             statement.setString(2, lastName);
             statement.setString(3, status);
+            statement.setString(4, email);
             statement.executeUpdate();
             resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
@@ -225,6 +227,7 @@ public class OrderManager extends DBManager {
             order.setFirst_name(resultSet.getString("first_name"));
             order.setLast_name(resultSet.getString("last_name"));
             order.setStatus(resultSet.getString("status"));
+            order.setEmail(resultSet.getString("email"));
             return order;
         } catch (SQLException sqle) {
             throw new RuntimeException(sqle);
@@ -251,19 +254,21 @@ public class OrderManager extends DBManager {
         
         if (order.first_name.isEmpty()) errors.put("first_name", "First Name not entered.");
         if (order.last_name.isEmpty()) errors.put("last_name", "Last Name not entered.");
+        if (order.email.isEmpty()) errors.put("email", "Email not entered.");
         return errors;
     }
         
-    public void updateOrderWithStatus(Integer id, String first_name, String last_name, String status) {
+    public void updateOrderWithStatus(Integer id, String first_name, String last_name, String status, String email) {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = dataSource.getConnection();
-            statement = connection.prepareStatement("UPDATE orders set first_name = ?, last_name = ?, status = ? WHERE id = ?");
+            statement = connection.prepareStatement("UPDATE orders set first_name = ?, last_name = ?, status = ?, email = ? WHERE id = ?");
             statement.setString(1, first_name);
             statement.setString(2, last_name);
             statement.setString(3, status);
-            statement.setInt(4, id);
+            statement.setString(4, email);
+            statement.setInt(5, id);
             statement.executeUpdate();
         } catch (SQLException sqle) {
             throw new RuntimeException(sqle);
@@ -273,16 +278,16 @@ public class OrderManager extends DBManager {
         }
     }
     
-        public void updateOrder(Integer id, String first_name, String last_name) {
+        public void updateOrder(Integer id, String first_name, String last_name, String email) {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = dataSource.getConnection();
-            statement = connection.prepareStatement("UPDATE orders set first_name = ?, last_name = ? WHERE id = ?");
+            statement = connection.prepareStatement("UPDATE orders set first_name = ?, last_name = ?, email = ? WHERE id = ?");
             statement.setString(1, first_name);
             statement.setString(2, last_name);
-            //statement.setString(3, status);
-            statement.setInt(3, id);
+            statement.setString(3, email);
+            statement.setInt(4, id);
             statement.executeUpdate();
         } catch (SQLException sqle) {
             throw new RuntimeException(sqle);

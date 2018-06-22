@@ -28,7 +28,8 @@ CREATE TABLE orders (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(32),
     last_name VARCHAR (32),
-    status VARCHAR(32)
+    status VARCHAR(32),
+    email VARCHAR(64)
 );
 
 DROP TABLE IF EXISTS order_items;

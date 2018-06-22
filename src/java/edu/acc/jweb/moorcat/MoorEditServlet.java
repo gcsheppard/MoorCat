@@ -53,13 +53,14 @@ public class MoorEditServlet extends HttpServlet {
         } else {
             String first_name = request.getParameter("first_name");
             String last_name = request.getParameter("last_name");
+            String email = request.getParameter("email");
 
-            Order order = new Order(first_name, last_name);
+            Order order = new Order(first_name, last_name, email);
             order.setId(order_id);
             HashMap<String,String> errors = orderManager.validOrder(order);
 
             if (errors.isEmpty()) {
-                orderManager.updateOrder(order_id, first_name, last_name);
+                orderManager.updateOrder(order_id, first_name, last_name, email);
                 errors = null;
             }
             orderItems = orderManager.getItemsForOrder(order_id);

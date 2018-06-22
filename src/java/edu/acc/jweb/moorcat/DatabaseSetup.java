@@ -40,9 +40,9 @@ public class DatabaseSetup {
     }
     
     public void addOrders(OrderManager orderManager) {
-        orderManager.addOrder("John", "Smith", "Placed");
-        orderManager.addOrder("Hilda", "Weintraub", "Placed");
-        orderManager.addOrder("Frodo", "Baggins", "Placed");
+        orderManager.addOrder("John", "Smith", "Placed", "AtypicalCat@gmail.com");
+        orderManager.addOrder("Hilda", "Weintraub", "Placed", "AtypicalCat@gmail.com");
+        orderManager.addOrder("Frodo", "Baggins", "Placed", "AtypicalCat@gmail.com");
         orderManager.addProductToOrder(1, 1, 1);
         orderManager.addProductToOrder(1, 4, 1);
         orderManager.addProductToOrder(1, 9, 1);

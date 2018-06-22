@@ -39,7 +39,8 @@ public class MoorNewOrderServlet extends HttpServlet {
         OrderManager orderManager = (OrderManager) getServletContext().getAttribute("orderManager");
         String first_name = request.getParameter("first_name");
         String last_name = request.getParameter("last_name");
-        Order order = new Order(first_name, last_name);
+        String email = request.getParameter("email");
+        Order order = new Order(first_name, last_name, email);
         HashMap<String,String> errors = orderManager.validOrder(order);
         
         //verify at least one order item

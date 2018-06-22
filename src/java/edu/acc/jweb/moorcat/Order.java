@@ -5,14 +5,15 @@ public class Order {
     public String first_name;
     public String last_name;
     public String status;
+    public String email;
     
-    public Order (String first_name, String last_name, String status) {
+    public Order (String first_name, String last_name, String status, String email) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.status = status;
     }   
     
-    public Order (String first_name, String last_name) {
+    public Order (String first_name, String last_name, String email) {
         this.first_name = first_name;
         this.last_name = last_name;
     }   
@@ -50,5 +51,13 @@ public class Order {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

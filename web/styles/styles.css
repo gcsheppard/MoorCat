@@ -111,6 +111,13 @@ div.h {
   font-size: 20px;
   grid-column: 4 / 6;
 }
+.edit3a {
+  background-color: white;
+  text-align: left;
+  padding: 1px;
+  font-size: 20px;
+  grid-column: 1 / 6;
+}
 .edit4 {
   background-color: yellow;
   text-align: left;

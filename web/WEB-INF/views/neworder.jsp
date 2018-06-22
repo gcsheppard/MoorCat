@@ -30,6 +30,7 @@
                 <div class="edit1">Order #: ${order.id}</div>
                 <div class="edit2">First Name: <input type="text" name="first_name" value="${order.first_name}"></div>
                 <div class="edit3">Last Name: <input type="text" size="40" name="last_name" value="${order.last_name}"></div>
+                <div class="edit3a">Email: <input type="text" size="60" name="email" value="${order.email}"></div>
                 <div class="edit4">Product #</div>
                 <div class="edit4">Category</div>
                 <div class="edit4">Supplier</div>

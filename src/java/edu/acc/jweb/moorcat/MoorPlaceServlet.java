@@ -22,7 +22,7 @@ public class MoorPlaceServlet extends HttpServlet {
         Order order = (Order) session.getAttribute("order");
         OrderManager orderManager = (OrderManager) getServletContext().getAttribute("orderManager");
         
-        int order_id = orderManager.addOrderReturnPK(order.getFirst_name(), order.getLast_name(), "Placed");
+        int order_id = orderManager.addOrderReturnPK(order.getFirst_name(), order.getLast_name(), "Placed", order.getEmail());
         
         for (OrderItem order_item : new_order_items) {
             orderManager.addProductToOrder(order_id, order_item.getProduct_id(), order_item.getQuantity());
