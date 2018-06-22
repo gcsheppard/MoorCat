@@ -3,7 +3,6 @@ package edu.acc.jweb.moorcat;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,8 +26,8 @@ public class MoorPackListServlet extends HttpServlet {
             response.sendError(404, "Not Found");
         } else {
             OrderManager orderManager = (OrderManager) getServletContext().getAttribute("orderManager");
-            orderManager.updateOrderStatus(order_id, "Packed");
-            //response.sendRedirect("/MoorCat/orders");
+            //get order
+            //get order items
             
                 try {
                     // Get the text that will be added to the PDF
@@ -36,41 +35,33 @@ public class MoorPackListServlet extends HttpServlet {
                     if (text == null || text.trim().length() == 0) {
                          text = "You didn't enter any text.";
                     }
-                    // step 1
+                    // create PDF document
                     Document document = new Document();
-                    // step 2
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    PdfWriter.getInstance(document, baos);
-                    // step 3
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    PdfWriter.getInstance(document, byteArrayOutputStream);
                     document.open();
-                    // step 4
                     document.add(new Paragraph(String.format(
                         "You have submitted the following text using the %s method:",
                         request.getMethod())));
                     document.add(new Paragraph(text));
-                    // step 5
                     document.close();
 
-                    // setting some response headers
+                    // set response headers and content information
                     response.setHeader("Expires", "0");
-                    response.setHeader("Cache-Control",
-                        "must-revalidate, post-check=0, pre-check=0");
+                    response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
                     response.setHeader("Pragma", "public");
-                    // setting the content type
                     response.setContentType("application/pdf");
-                    // the contentlength
-                    response.setContentLength(baos.size());
+                    response.setContentLength(byteArrayOutputStream.size());
+                    
                     // write ByteArrayOutputStream to the ServletOutputStream
-                    OutputStream os = response.getOutputStream();
-                    baos.writeTo(os);
-                    os.flush();
-                    os.close();
+                    OutputStream outputStream = response.getOutputStream();
+                    byteArrayOutputStream.writeTo(outputStream);
+                    outputStream.flush();
+                    outputStream.close();
                 }
                 catch(DocumentException e) {
                     throw new IOException(e.getMessage());
                 }
-                
-
         }
     }
 }
