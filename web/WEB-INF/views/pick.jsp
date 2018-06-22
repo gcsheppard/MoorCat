@@ -5,7 +5,7 @@
     <head>
         <link rel="stylesheet" href="/MoorCat/styles/styles.css">
     </head>
-        <h1>The MoorCat--everything for your cat!</h1>
+        <h1>The Moor Cat--everything for your cat!</h1>
      <body>
         <h2>Pick Order For: ${order.first_name} ${order.last_name}</h2>
         <form action="pick" method="post">

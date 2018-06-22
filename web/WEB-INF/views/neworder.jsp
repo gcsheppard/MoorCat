@@ -5,7 +5,7 @@
     <head>
         <link rel="stylesheet" href="/MoorCat/styles/styles.css">
     </head>
-        <h1>The MoorCat--everything for your cat!</h1>
+        <h1>The Moor Cat--everything for your cat!</h1>
      <body>
         <h2>Enter Order Information:</h2>
         

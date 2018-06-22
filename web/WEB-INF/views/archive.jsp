@@ -5,7 +5,7 @@
     <head>
         <link rel="stylesheet" href="/MoorCat/styles/styles.css">
     </head>
-        <h1>The MoorCat--everything for your cat!</h1>
+        <h1>The Moor Cat--everything for your cat!</h1>
      <body>
         <h2>Archive Order For: ${order.first_name} ${order.last_name}</h2>
         <div class="b">(Order will no longer be included on default list.)</div><br>
