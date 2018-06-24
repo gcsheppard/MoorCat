@@ -1,5 +1,7 @@
 package edu.acc.jweb.moorcat;
 
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chunk;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -10,8 +12,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
 
 @WebServlet(urlPatterns = {"/packlist"})
 public class MoorPackListServlet extends HttpServlet {
@@ -26,24 +35,99 @@ public class MoorPackListServlet extends HttpServlet {
             response.sendError(404, "Not Found");
         } else {
             OrderManager orderManager = (OrderManager) getServletContext().getAttribute("orderManager");
-            //get order
-            //get order items
+            Order order = orderManager.findOrderById(order_id);
+            if (order == null) {
+                response.sendError(404, "Not Found");
+            }
+            else {
+                ArrayList<OrderItem> orderItems = null;
+                orderItems = orderManager.getItemsForOrder(order_id);
             
                 try {
-                    // Get the text that will be added to the PDF
-                    String text = request.getParameter("text");
-                    if (text == null || text.trim().length() == 0) {
-                         text = "You didn't enter any text.";
-                    }
                     // create PDF document
                     Document document = new Document();
                     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                     PdfWriter.getInstance(document, byteArrayOutputStream);
                     document.open();
-                    document.add(new Paragraph(String.format(
-                        "You have submitted the following text using the %s method:",
-                        request.getMethod())));
-                    document.add(new Paragraph(text));
+                    
+                    Font blue24 = new Font(Font.FontFamily.HELVETICA, 24, Font.BOLD, BaseColor.BLUE);
+                    Font blue18 = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD, BaseColor.BLUE);
+                    Font blue12 = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLUE);
+                    Chunk blueText1 = new Chunk("Moor Cat", blue24);
+                    Chunk blueText2 = new Chunk("Packing List", blue18);
+                    Chunk blueText3 = new Chunk("Order #" + order_id + " for " 
+                            + order.getFirst_name() + " " + order.getLast_name(), blue12);
+                    
+                    addParagraph(document, blueText1);
+                    document.add(Chunk.NEWLINE);
+                    addParagraph(document, blueText2);
+                    document.add(Chunk.NEWLINE);
+                    addParagraph(document, blueText3);
+                    document.add(Chunk.NEWLINE);
+                    
+                    PdfPTable table = new PdfPTable(3);
+                    table.setWidthPercentage(40);
+                    table.setWidths(new int[]{1, 3, 5});
+                    
+                    for (OrderItem orderItem : orderItems) {
+                        Chunk chunk = new Chunk(Integer.toString(orderItem.getQuantity()));
+                        addTextCell(table, chunk);
+                        Image image = Image.getInstance("C:/j2ee/PDFWebApplication1/web/images/" + orderItem.getProduct_id() + ".jpg");
+                        addImageCell(table, image);
+                        chunk = new Chunk(orderItem.getName());
+                        addTextCell(table, chunk);
+                    }
+/*
+                    PdfPCell cell = new PdfPCell();
+                    Paragraph p = new Paragraph("1");
+                    //p.setAlignment(Element.ALIGN_RIGHT);
+                    cell.addElement(p);
+                    //cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+                    //cell.setBorder(Rectangle.NO_BORDER);
+                    table.addCell(cell);
+
+                    //table.addCell(createImageCell("1.jpg"));
+                    Image img = Image.getInstance("C:/j2ee/PDFWebApplication1/web/images/1.jpg");
+                    //img.scalePercent(10);
+                    cell = new PdfPCell(img, true);
+                    cell.setUseBorderPadding(true);
+                    table.addCell(cell);
+
+                    cell = new PdfPCell();
+                    Paragraph p6 = new Paragraph();
+                    p6.setAlignment(Element.ALIGN_LEFT);
+                    p6.add(blueText3);
+                    cell.addElement(p6);
+                    //cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+                    //cell.setBorder(Rectangle.NO_BORDER);
+                    table.addCell(cell);
+
+                    PdfPCell cell2 = new PdfPCell();
+                    Paragraph p4 = new Paragraph("2");
+                    p4.setAlignment(Element.ALIGN_CENTER);
+                    cell2.addElement(p4);
+                    //cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+                    //cell.setBorder(Rectangle.NO_BORDER);
+                    table.addCell(cell2);
+
+                    //table.addCell(createImageCell("1.jpg"));
+                    Image img2 = Image.getInstance("C:/j2ee/PDFWebApplication1/web/images/2.jpg");
+                    //img.scalePercent(10);
+                    cell2 = new PdfPCell(img2, true);
+                    cell2.setUseBorderPadding(true);
+                    table.addCell(cell2);
+
+                    cell2 = new PdfPCell();
+                    Paragraph p5 = new Paragraph("This picture was taken at Java Two.");
+                    //p.setAlignment(Element.ALIGN_RIGHT);
+                    cell2.addElement(p5);
+                    //cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+                    //cell.setBorder(Rectangle.NO_BORDER);
+                    table.addCell(cell2);
+*/
+
+                    document.add(table);
+                    
                     document.close();
 
                     // set response headers and content information
@@ -62,6 +146,33 @@ public class MoorPackListServlet extends HttpServlet {
                 catch(DocumentException e) {
                     throw new IOException(e.getMessage());
                 }
+            }
         }
     }
+    
+    private void addParagraph(Document document, Chunk text)
+        throws DocumentException {
+        
+        Paragraph paragraph = new Paragraph();
+        paragraph.setAlignment(Element.ALIGN_CENTER);
+        paragraph.add(text);
+        document.add(paragraph);
+    }
+    
+    private void addTextCell(PdfPTable table, Chunk text) 
+            throws DocumentException {
+        
+        PdfPCell cell = new PdfPCell();
+        Paragraph paragraph = new Paragraph(text);
+        cell.addElement(paragraph);
+        table.addCell(cell);
+    }
+    
+    private void addImageCell (PdfPTable table, Image image)
+            throws DocumentException {
+   
+        PdfPCell cell = new PdfPCell(image, true);
+        cell.setUseBorderPadding(true);
+        table.addCell(cell);
+    }        
 }
