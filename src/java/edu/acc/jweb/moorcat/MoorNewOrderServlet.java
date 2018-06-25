@@ -40,22 +40,11 @@ public class MoorNewOrderServlet extends HttpServlet {
         String first_name = request.getParameter("first_name");
         String last_name = request.getParameter("last_name");
         String email = request.getParameter("email");
-        
-        System.out.println("--3------------------------");
-        System.out.println("first_name = " + first_name);
-        System.out.println("last_name = " + last_name);
-        System.out.println("email = " + email);
-        System.out.println("------------------------");
             
         Order order = new Order(first_name, last_name, email);
         HashMap<String,String> errors = orderManager.validOrder(order);
         
-        //verify at least one order item
-        //keep list of order items in session
-        //if not at least one order item, add to errors
-        //put order, order_items, errors in session
-        //also determine products list for adding product
-        
+//check order quantities: 0-->remove; >0-->update quantity
         HttpSession session = request.getSession();
         @SuppressWarnings (value="unchecked")
         ArrayList<OrderItem> new_order_items = (ArrayList<OrderItem>) session.getAttribute("new_order_items");
@@ -75,35 +64,22 @@ public class MoorNewOrderServlet extends HttpServlet {
                 }
             }
         }
-        
+        //if there's a new item, add to order
         String str = request.getParameter("new_product");
         Integer product_id = UtilityMethods.integerFromString(str);
         str = request.getParameter("new_quantity");
         Integer quantity = UtilityMethods.integerFromString(str);
         if (product_id != null && quantity > 0) {
-            System.out.println("--3------------------------");
-            System.out.println("product_id = " + product_id);
-            System.out.println("quantity = " + quantity);
-            System.out.println("------------------------");
             OrderItem orderItem = orderManager.getUnassignedOrderItem(product_id, quantity);
             if (new_order_items != null) {
                 new_order_items.add(orderItem);
             }
-            if (new_order_items == null) {
-                System.out.println("--1------------------------");
-                System.out.println("new_order_items is null");
-                System.out.println("------------------------");
-            } else {
-                System.out.println("--1------------------------");
-                System.out.println("new_order_items.size() = " + new_order_items.size());
-                System.out.println("------------------------");
-            }
         }
-        
+        //if no items on order, add to errors
         if (new_order_items == null || new_order_items.isEmpty()) {
             errors.put("order items", "At least one order item is required.");
         }
-        
+        //get products for new product list; avoid duplcating existing items
         if (new_order_items == null || new_order_items.isEmpty()) {
             products = productManager.getProductsNotOnOrder(0);
         } else {
@@ -118,16 +94,6 @@ public class MoorNewOrderServlet extends HttpServlet {
             products = productManager.getProductsPerSQL(sql);
         }
                
-        if (new_order_items == null) {
-            System.out.println("--2------------------------");
-            System.out.println("new_order_items is null");
-            System.out.println("------------------------");
-        } else {
-            System.out.println("--2------------------------");
-            System.out.println("new_order_items.size() = " + new_order_items.size());
-            System.out.println("------------------------");
-        }
-
         session.setAttribute("new_order_items", new_order_items);
         session.setAttribute("products", products);
         session.setAttribute("order", order);

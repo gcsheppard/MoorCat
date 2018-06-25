@@ -27,8 +27,7 @@ public class MoorEditServlet extends HttpServlet {
                 response.sendError(404, "Not Found");
             }
             else {
-                ArrayList<OrderItem> orderItems = null;
-                orderItems = orderManager.getItemsForOrder(order_id);
+                ArrayList<OrderItem> orderItems = orderManager.getItemsForOrder(order_id);
                 request.setAttribute("order", order);
                 request.setAttribute("orderItems", orderItems);
                 ProductManager productManager = (ProductManager) getServletContext().getAttribute("productManager");

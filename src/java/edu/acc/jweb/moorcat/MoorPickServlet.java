@@ -18,8 +18,6 @@ public class MoorPickServlet extends HttpServlet {
         
         String str = request.getParameter("order_id");
         Integer order_id = UtilityMethods.integerFromString(str);
-        
-        //Integer id = integerIdFromParameter(request);
         if (order_id == null) {
             response.sendError(404, "Not Found");
         } else {
@@ -43,39 +41,20 @@ public class MoorPickServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        //printParamInfo(request);
-        
         String str = request.getParameter("order_id");
         Integer order_id = UtilityMethods.integerFromString(str);
-        /*
-        if (order_id == null) {
-            System.out.println("order_id is null");
-        } else {
-            System.out.println("order_id is not null; it is: " + order_id);
-        }
-        */
         OrderManager orderManager = (OrderManager) getServletContext().getAttribute("orderManager");
-        ArrayList<OrderItem> orderItems = null;
-        orderItems = orderManager.getItemsForOrder(order_id);
+        ArrayList<OrderItem> orderItems = orderManager.getItemsForOrder(order_id);
         for (OrderItem orderItem : orderItems) {
             String product_id = Integer.toString(orderItem.getProduct_id());
-            //System.out.println("product_id is: " + product_id);
             str = request.getParameter(product_id);
             Integer picked = UtilityMethods.integerFromString(str);
-            /*
-            if (picked == null) {
-            System.out.println("picked is null");
-            } else {
-            System.out.println("picked is not null; it is: " + picked);
-            }
-            */
             orderManager.updatePicked(order_id, orderItem.getProduct_id(), picked);
         }
         //determine if picking complete
         if (orderManager.pickComplete(order_id)) {
             orderManager.updateOrderStatus(order_id, "Picked");
         }
-        
         response.sendRedirect("/MoorCat/orders"); 
     }
 }

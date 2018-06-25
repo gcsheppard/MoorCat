@@ -19,7 +19,6 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 @WebServlet(urlPatterns = {"/packlist"})
@@ -50,6 +49,7 @@ public class MoorPackListServlet extends HttpServlet {
                     PdfWriter.getInstance(document, byteArrayOutputStream);
                     document.open();
                     
+                    //define fonts and header text
                     Font blue24 = new Font(Font.FontFamily.HELVETICA, 24, Font.BOLD, BaseColor.BLUE);
                     Font blue18 = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD, BaseColor.BLUE);
                     Font blue12 = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLUE);
@@ -57,18 +57,18 @@ public class MoorPackListServlet extends HttpServlet {
                     Chunk blueText2 = new Chunk("Packing List", blue18);
                     Chunk blueText3 = new Chunk("Order #" + order_id + " for " 
                             + order.getFirst_name() + " " + order.getLast_name(), blue12);
-                    
+                    //add header text to document
                     addParagraph(document, blueText1);
                     document.add(Chunk.NEWLINE);
                     addParagraph(document, blueText2);
                     document.add(Chunk.NEWLINE);
                     addParagraph(document, blueText3);
                     document.add(Chunk.NEWLINE);
-                    
+                    //create table
                     PdfPTable table = new PdfPTable(3);
                     table.setWidthPercentage(40);
                     table.setWidths(new int[]{1, 3, 5});
-                    
+                    //list ordered items in table
                     for (OrderItem orderItem : orderItems) {
                         Chunk chunk = new Chunk(Integer.toString(orderItem.getQuantity()));
                         addTextCell(table, chunk);
@@ -77,57 +77,8 @@ public class MoorPackListServlet extends HttpServlet {
                         chunk = new Chunk(orderItem.getName());
                         addTextCell(table, chunk);
                     }
-/*
-                    PdfPCell cell = new PdfPCell();
-                    Paragraph p = new Paragraph("1");
-                    //p.setAlignment(Element.ALIGN_RIGHT);
-                    cell.addElement(p);
-                    //cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
-                    //cell.setBorder(Rectangle.NO_BORDER);
-                    table.addCell(cell);
-
-                    //table.addCell(createImageCell("1.jpg"));
-                    Image img = Image.getInstance("C:/j2ee/PDFWebApplication1/web/images/1.jpg");
-                    //img.scalePercent(10);
-                    cell = new PdfPCell(img, true);
-                    cell.setUseBorderPadding(true);
-                    table.addCell(cell);
-
-                    cell = new PdfPCell();
-                    Paragraph p6 = new Paragraph();
-                    p6.setAlignment(Element.ALIGN_LEFT);
-                    p6.add(blueText3);
-                    cell.addElement(p6);
-                    //cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
-                    //cell.setBorder(Rectangle.NO_BORDER);
-                    table.addCell(cell);
-
-                    PdfPCell cell2 = new PdfPCell();
-                    Paragraph p4 = new Paragraph("2");
-                    p4.setAlignment(Element.ALIGN_CENTER);
-                    cell2.addElement(p4);
-                    //cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
-                    //cell.setBorder(Rectangle.NO_BORDER);
-                    table.addCell(cell2);
-
-                    //table.addCell(createImageCell("1.jpg"));
-                    Image img2 = Image.getInstance("C:/j2ee/PDFWebApplication1/web/images/2.jpg");
-                    //img.scalePercent(10);
-                    cell2 = new PdfPCell(img2, true);
-                    cell2.setUseBorderPadding(true);
-                    table.addCell(cell2);
-
-                    cell2 = new PdfPCell();
-                    Paragraph p5 = new Paragraph("This picture was taken at Java Two.");
-                    //p.setAlignment(Element.ALIGN_RIGHT);
-                    cell2.addElement(p5);
-                    //cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
-                    //cell.setBorder(Rectangle.NO_BORDER);
-                    table.addCell(cell2);
-*/
 
                     document.add(table);
-                    
                     document.close();
 
                     // set response headers and content information

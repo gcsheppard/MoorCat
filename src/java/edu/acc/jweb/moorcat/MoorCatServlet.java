@@ -16,11 +16,10 @@ public class MoorCatServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        ArrayList<Order> orders = null;
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         OrderManager orderManager = (OrderManager) getServletContext().getAttribute("orderManager");
-        orders = orderManager.getOrders(user.getDepartment());
+        ArrayList<Order> orders = orderManager.getOrders(user.getDepartment());
         request.setAttribute("orders", orders);
         getServletContext().getRequestDispatcher("/WEB-INF/views/orders.jsp").forward(request, response);
     }
