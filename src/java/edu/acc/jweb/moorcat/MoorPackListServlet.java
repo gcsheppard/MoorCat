@@ -87,6 +87,7 @@ public class MoorPackListServlet extends HttpServlet {
                     response.setHeader("Pragma", "public");
                     response.setContentType("application/pdf");
                     response.setContentLength(byteArrayOutputStream.size());
+                    response.setHeader("Content-Disposition", "attachment; filename=packlist.pdf");
                     
                     // write ByteArrayOutputStream to the ServletOutputStream
                     OutputStream outputStream = response.getOutputStream();
