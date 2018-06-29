@@ -72,7 +72,7 @@ public class MoorPackListServlet extends HttpServlet {
                     for (OrderItem orderItem : orderItems) {
                         Chunk chunk = new Chunk(Integer.toString(orderItem.getQuantity()));
                         addTextCell(table, chunk);
-                        Image image = Image.getInstance("C:/j2ee/PDFWebApplication1/web/images/" + orderItem.getProduct_id() + ".jpg");
+                        Image image = Image.getInstance("C:/j2ee/MoorCat/web/images/" + orderItem.getProduct_id() + ".jpg");
                         addImageCell(table, image);
                         chunk = new Chunk(orderItem.getName());
                         addTextCell(table, chunk);
@@ -87,7 +87,7 @@ public class MoorPackListServlet extends HttpServlet {
                     response.setHeader("Pragma", "public");
                     response.setContentType("application/pdf");
                     response.setContentLength(byteArrayOutputStream.size());
-                    response.setHeader("Content-Disposition", "attachment; filename=packlist.pdf");
+                    response.setHeader("Content-Disposition", "attachment; filename=packlist-" + order.getLast_name() + order_id + ".pdf");
                     
                     // write ByteArrayOutputStream to the ServletOutputStream
                     OutputStream outputStream = response.getOutputStream();

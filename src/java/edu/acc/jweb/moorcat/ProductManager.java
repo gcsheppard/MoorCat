@@ -34,6 +34,31 @@ public class ProductManager extends DBManager {
         }
     }
     
+    public ArrayList<Product> getAllProducts() {
+        ArrayList<Product> list = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = dataSource.getConnection();
+            statement = connection.prepareStatement("SELECT b.id, b.name, b.price, c.name as category, "
+                    + "d.name AS supplier FROM products b, categories c, suppliers d WHERE b.category_id = c.id AND b.supplier_id = d.id");
+            resultSet = statement.executeQuery();
+            
+            while (resultSet.next()) {
+                Product product = productAllFromDB(resultSet);
+                list.add(product);
+            }
+        } catch(SQLException sqle) {
+            throw new RuntimeException(sqle);
+        } finally {
+            close(resultSet);
+            close(statement);
+            close(connection);
+        }         
+        return list;
+    }
+    
     public ArrayList<Product> getProducts() {
         ArrayList<Product> list = new ArrayList<>();
         Connection connection = null;
@@ -123,5 +148,17 @@ public class ProductManager extends DBManager {
         }
     }
     
-    
+    private Product productAllFromDB(ResultSet resultSet) {
+        Product product = new Product();
+        try {
+            product.setProduct_id(resultSet.getInt("id"));
+            product.setName(resultSet.getString("name"));
+            product.setPrice(resultSet.getBigDecimal("price"));
+            product.setCategory_name(resultSet.getString("category"));
+            product.setSupplier_name(resultSet.getString("supplier"));
+            return product;
+        } catch (SQLException sqle) {
+            throw new RuntimeException(sqle);
+        }
+    }
 }

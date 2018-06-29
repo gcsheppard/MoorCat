@@ -81,7 +81,7 @@ public class MoorShipServlet extends HttpServlet {
             }
             message += "</table>";
             //signature
-            message += "<br>Thank you,<br>sales@MoorCat.com<br>512-555-1212<br>";
+            message += "<div><font color=blue size=3><br>Thank you,<br>sales@MoorCat.com<br>512-555-1212</font></div><br>";
             
             try {
                 EmailUtility.sendHTMLEmail(host, port, user, pass, recipient, subject, message, orderItems);
