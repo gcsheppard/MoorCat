@@ -148,6 +148,31 @@ public class ProductManager extends DBManager {
         }
     }
     
+    public Product findProductByID(int product_id) {
+        Product product = null;
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = dataSource.getConnection();
+            statement = connection.prepareStatement("SELECT * FROM products WHERE id = ?");
+            statement.setInt(1, product_id);
+            resultSet = statement.executeQuery();
+            
+            if (resultSet.next()) {
+                product = productFromDB(resultSet);
+            }
+        } catch(SQLException sqle) {
+            throw new RuntimeException(sqle);
+        } finally {
+            close(resultSet);
+            close(statement);
+            close(connection);
+        } 
+        return product;
+    }
+
+    
     private Product productAllFromDB(ResultSet resultSet) {
         Product product = new Product();
         try {

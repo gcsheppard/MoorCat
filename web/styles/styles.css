@@ -191,3 +191,71 @@ div.h {
   font-size: 15px;
   grid-column: 2 / 3
 }
+.products-grid {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto;
+  grid-gap: 5px;
+  background-color: #4CAF50;
+  padding: 5px;
+}
+.products1 {
+  background-color: yellow;
+  text-align: center;
+  padding: 5px 0;
+  font-size: 20px;
+}
+.products2 {
+  background-color: white;
+  text-align: center;
+  padding: 5px 0;
+  font-size: 20px;
+}
+.editproduct_grid {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+  grid-gap: 5px;
+  background-color: #4CAF50;
+  padding: 5px;
+}
+.editproduct1a {
+  background-color: yellow;
+  text-align: left;
+  padding: 1px;
+  font-size: 20px;
+  grid-column: 1 / 2;
+}
+.editproduct1b {
+  background-color: white;
+  text-align: left;
+  padding: 1px;
+  font-size: 20px;
+  grid-column: 2 / 6;
+}
+.editproduct2a {
+  background-color: white;
+  text-align: left;
+  padding: 1px;
+  font-size: 20px;
+  grid-column: 1 / 2;
+}
+.editproduct2b {
+  background-color: white;
+  text-align: center;
+  padding: 1px;
+  font-size: 20px;
+  grid-column: 2 / 4;
+}
+.editproduct2c {
+  background-color: white;
+  text-align: center;
+  padding: 1px;
+  font-size: 20px;
+  grid-column: 4 / 6;
+}
+.editproductsave {
+  background-color: yellow;
+  text-align: center;
+  padding: 5px 0;
+  font-size: 20px;
+  grid-column: 1 / 6;
+}
