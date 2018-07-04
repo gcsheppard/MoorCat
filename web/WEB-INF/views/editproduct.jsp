@@ -7,7 +7,7 @@
     </head>
     <body>
         <h1>The Moor Cat--everything for your cat!</h1>
-        <h1>Edit Product Information:</h1>
+        <h2>Edit Product Information:</h2>
         
         <c:choose>
             <c:when test = "${show_errors == 'true'}">
@@ -28,8 +28,37 @@
                 <div class="editproduct1a">Product #: ${product.product_id}</div>
                 <div class="editproduct1b">Name: <input type="text" size="100" name="name" value="${product.name}"></div>
                 <div class="editproduct2a">Price: <input type="text" size="10" name="price" value="${product.price}"></div>
-                <div class="editproduct2b">Category: <input type="text" size="20" name="category_id" value="${product.category_id}"></div>
-                <div class="editproduct2c">Supplier: <input type="text" size="20" name="supplier_id" value="${product.supplier_id}"></div>
+
+                <div class="editproduct2b">Category:
+                    <select name="category_id">
+                        <c:forEach var="category" items="${categories}">
+                            <c:choose>
+                                <c:when test = "${category.category_id == product.category_id}">
+                                    <option value="${category.category_id}" selected>${category.category_name}</option>
+                                </c:when>
+                                <c:otherwise>
+                                    <option value="${category.category_id}">${category.category_name}</option>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </select>
+                </div>    
+
+                <div class="editproduct2c">Supplier:
+                    <select name="supplier_id">
+                        <c:forEach var="supplier" items="${suppliers}">
+                            <c:choose>
+                                <c:when test = "${supplier.supplier_id == product.supplier_id}">
+                                    <option value="${supplier.supplier_id}" selected>${supplier.supplier_name}</option>
+                                </c:when>
+                                <c:otherwise>
+                                    <option value="${supplier.supplier_id}">${supplier.supplier_name}</option>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </select>
+                </div>    
+                
                 <div class="editproductsave"><input type="submit" value="Save" /></div>
             </div>        
         </form>
