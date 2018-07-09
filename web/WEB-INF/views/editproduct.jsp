@@ -65,6 +65,18 @@
 
         
         <br><div class="d"><a href="/MoorCat/products">Return to product list</a></div><br>
+        
+        <br><br>
+        
+        <h2>Add Product Image:</h2>        
+        <form action="upload" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="product_id" value="${product.product_id}" />
+            <input type="file" size="60" name="image" />
+
+            <br />
+            <input type="submit" value="upload"></input>
+        </form>
+
 
     </body>
 </html>

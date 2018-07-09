@@ -5,7 +5,10 @@ CREATE TABLE products (
     name VARCHAR(128) NOT NULL,
     price DECIMAL(5,2) NOT NULL,
     category_id INT NOT NULL,
-    supplier_id INT NOT NULL
+    supplier_id INT NOT NULL,
+    filename VARCHAR(128),
+    content_type VARCHAR(128),
+    content blob
 );
 
 DROP TABLE IF EXISTS categories;

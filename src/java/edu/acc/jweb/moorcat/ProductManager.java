@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.sql.DataSource;
 
 public class ProductManager extends DBManager {
@@ -172,7 +173,6 @@ public class ProductManager extends DBManager {
         return product;
     }
 
-    
     private Product productAllFromDB(ResultSet resultSet) {
         Product product = new Product();
         try {
@@ -186,4 +186,13 @@ public class ProductManager extends DBManager {
             throw new RuntimeException(sqle);
         }
     }
+    
+    public HashMap<String,String> validProduct(Product product) {
+        HashMap<String,String> errors = new HashMap<>();
+        
+        if (product.getName().isEmpty()) errors.put("name", "Product Name not entered.");
+        if (product.getPrice().toString().isEmpty()) errors.put("price", "Price not entered or not valid.");
+        return errors;
+    }
+
 }
