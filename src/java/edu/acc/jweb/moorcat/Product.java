@@ -10,6 +10,8 @@ public class Product {
     private int supplier_id;
     private String category_name;
     private String supplier_name;
+    private String fileName;
+    private String contentType;
     
     public Product () {
     }
@@ -55,5 +57,17 @@ public class Product {
     }
     public void setSupplier_name(String supplier_name) {
         this.supplier_name = supplier_name;
+    }
+    public String getFileName() {
+        return fileName;
+    }
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+    public String getContentType() {
+        return contentType;
+    }
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
     }
 }

@@ -22,13 +22,14 @@ public class ImageUploadServlet extends HttpServlet {
         
         Part part = request.getPart("image");
         if (part != null) {
-            ImageManager manager = (ImageManager) getServletContext().getAttribute("imageManager");
+            //ImageManager manager = (ImageManager) getServletContext().getAttribute("imageManager");
+            ProductManager productManager = (ProductManager) getServletContext().getAttribute("productManager");
             InputStream imageStream = null;
             try {
                 String fileName = part.getSubmittedFileName();
                 String contentType = part.getContentType();
                 imageStream = part.getInputStream();
-                manager.saveImage(fileName, contentType, imageStream, product_id);
+                productManager.saveImage(fileName, contentType, imageStream, product_id);
             } finally {
                 if (imageStream != null) {
                     try {

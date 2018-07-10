@@ -76,6 +76,16 @@
             <br />
             <input type="submit" value="upload"></input>
         </form>
+            
+            
+            
+        <c:choose>
+            <c:when test = "${product.contentType != null}">
+                <div>
+                    <img width="150" src="/MoorCat/image?id=${product.product_id}" />
+                </div>
+            </c:when>
+        </c:choose>    
 
 
     </body>
