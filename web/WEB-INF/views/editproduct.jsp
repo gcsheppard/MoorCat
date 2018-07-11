@@ -62,30 +62,39 @@
                 <div class="editproductsave"><input type="submit" value="Save" /></div>
             </div>        
         </form>
-
-        
-        <br><div class="d"><a href="/MoorCat/products">Return to product list</a></div><br>
         
         <br><br>
         
-        <h2>Add Product Image:</h2>        
-        <form action="upload" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="product_id" value="${product.product_id}" />
-            <input type="file" size="60" name="image" />
+        <div class="editimage_grid">
+            <c:choose>
+                <c:when test = "${product.contentType != null}">
+                    <div class="editimage1a">
+                        <img width="170" src="/MoorCat/image?id=${product.product_id}" />
+                    </div>
+                </c:when>
+            </c:choose>   
+            
+            <div class="editimage1b">Add Product Image:</div>
+            
+            <div class="editimage2a">
+                <form action="upload" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="product_id" value="${product.product_id}" />
+                Select image file: <input type="file" size="60" name="image" />
+            </div>
 
-            <br />
-            <input type="submit" value="upload"></input>
-        </form>
+            <div class="editimage3a">
+                <input type="submit" value="Upload Image"></input>
+                </form>
+            </div>
+            
+        </div>
+        
             
             
             
-        <c:choose>
-            <c:when test = "${product.contentType != null}">
-                <div>
-                    <img width="150" src="/MoorCat/image?id=${product.product_id}" />
-                </div>
-            </c:when>
-        </c:choose>    
+
+            
+        <br><br><br><div class="d"><a href="/MoorCat/products">Return to product list</a></div><br>
 
 
     </body>

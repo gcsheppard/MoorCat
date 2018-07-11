@@ -214,26 +214,27 @@ div.h {
   display: grid;
   grid-template-columns: auto auto auto auto auto;
   grid-gap: 5px;
+  max-width: 1000px;
   background-color: #4CAF50;
   padding: 5px;
 }
 .editproduct1a {
   background-color: yellow;
-  text-align: left;
+  text-align: center;
   padding: 1px;
   font-size: 20px;
   grid-column: 1 / 2;
 }
 .editproduct1b {
   background-color: white;
-  text-align: left;
+  text-align: center;
   padding: 1px;
   font-size: 20px;
   grid-column: 2 / 6;
 }
 .editproduct2a {
   background-color: white;
-  text-align: left;
+  text-align: center;
   padding: 1px;
   font-size: 20px;
   grid-column: 1 / 2;
@@ -252,10 +253,54 @@ div.h {
   font-size: 20px;
   grid-column: 4 / 6;
 }
+.editproduct3a {
+  background-color: white;
+  text-align: center;
+  padding: 1px;
+  font-size: 20px;
+  grid-column: 4 / 6;
+}
 .editproductsave {
   background-color: yellow;
   text-align: center;
   padding: 5px 0;
   font-size: 20px;
   grid-column: 1 / 6;
+}
+.editimage_grid {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+  grid-gap: 5px;
+  max-width: 1000px;
+  background-color: #4CAF50;
+  padding: 5px;
+}
+.editimage1a {
+  background-color: white;
+  text-align: center;
+  padding: 1px;
+  font-size: 20px;
+  grid-column: 1 / span 2;
+  grid-row: 1 / span 3;
+}
+.editimage1b {
+  background-color: yellow;
+  text-align: center;
+  padding: 1px;
+  font-size: 20px;
+  grid-column: 3 / span 3;
+}
+.editimage2a {
+  background-color: white;
+  text-align: center;
+  padding: 1px;
+  font-size: 20px;
+  grid-column: 3 / span 3;
+}
+.editimage3a {
+  background-color: yellow;
+  text-align: center;
+  padding: 1px;
+  font-size: 20px;
+  grid-column: 3 / span 3;
 }
