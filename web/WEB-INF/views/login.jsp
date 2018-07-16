@@ -6,9 +6,10 @@
         <link rel="stylesheet" href="/MoorCat/styles/styles.css">
     </head>
     <body>
+        <h1>Moor Cat Administration</h1>
         <h1><c:out value = "${flash}"/></h1>
         
-        <h2>Login:</h2>
+        <h2>Please Login:</h2>
         <form action="login" method="post">
             <div class="login_grid">
                 <div class="login1"><input type="text" name="username" placeholder="Username"}></div><br>

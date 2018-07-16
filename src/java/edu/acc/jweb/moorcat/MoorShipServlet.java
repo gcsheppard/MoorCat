@@ -69,7 +69,7 @@ public class MoorShipServlet extends HttpServlet {
             
             //header
             String message = "<div><font color=blue size=5 align=center>Hello " + order.getFirst_name() + " " + order.getLast_name() + ":</font></div><br>";
-            message += "<div><font color=blue size=3>Your order " + order.getId() + " has shipped.</font></div><br>";
+            message += "<div><font color=blue size=3>Your order #" + order.getId() + " has shipped.</font></div><br>";
             message += "<div><font color=blue size=3>Shipment is by " + ship_method_name + ", tracking number " + tracking + ".</font></div><br>";
             message += "<div><font color=blue size=3>This shipment includes:</font></div><br>";
             //table of order items
